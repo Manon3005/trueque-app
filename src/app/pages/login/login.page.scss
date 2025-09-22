@@ -1,0 +1,49 @@
+ion-content {
+  --background: var(--ion-color-primary);
+}
+
+.sign-in-forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  max-width: 500px;
+  min-width: 250px;
+  width: fit-content;  
+  height: auto;
+  gap: 5vh;
+  padding:4vh;
+  overflow: hidden; 
+}
+
+ion-button {
+  width:60%;
+  text-transform: none;
+  color: white;
+}
+
+.title {
+  color: white;
+  font-size: 4rem;
+  font-family: Libre Baskerville;
+  margin-top:4vh;
+  margin-bottom: 10vh;
+}
+
+.sub-title {
+  color: #8A858E;
+  font-size: 2rem;
+  font-family: Libre Baskerville;
+  margin: 0;
+}
+
+.body {
+  color: white;
+  font-size: 0.75rem;
+}
+
+a {
+  color: white;
+  font-size: 0.75rem;
+}
