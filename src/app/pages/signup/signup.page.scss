@@ -1,0 +1,53 @@
+ion-content {
+  --background: var(--ion-color-primary);
+}
+
+ion-button {
+  width:40%;
+  text-transform: none;
+  color: white;
+  align-self: center;
+}
+
+.sign-up-forms {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px 10px 0 0;
+  max-width: 500px;
+  min-width: 250px;
+  width: 100%;
+  height: 75vh;
+  gap: 5vh;
+  padding: 4vh;
+  overflow: hidden;
+  bottom: 0;
+  position: fixed;
+  overflow-y: auto;
+}
+
+.title {
+  position: fixed;
+  color: white;
+  font-size: 4rem;
+  font-family: Libre Baskerville;
+  bottom: 82vh;
+  margin: 0;
+}
+
+.sign-up-header {
+  position: fixed;
+  bottom: 74vh;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.body {
+  color: white;
+  font-size: 0.9rem;
+}
