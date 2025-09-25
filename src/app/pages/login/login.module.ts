@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginPage } from './login.page';
 import { LoginPageRoutingModule } from './login-routing.module';
 import { InputComponent } from '../../components/input/input.component';
+import { SharedModule } from 'src/app/modules/shared/shared-module';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { InputComponent } from '../../components/input/input.component';
     FormsModule,
     IonicModule,
     LoginPageRoutingModule,
+    SharedModule
   ],
-  declarations: [LoginPage, InputComponent]
+  declarations: [LoginPage]
 })
 export class LoginPageModule {}

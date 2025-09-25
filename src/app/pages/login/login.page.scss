@@ -5,7 +5,6 @@ ion-content {
 .sign-in-forms {
   display: flex;
   flex-direction: column;
-  align-items: center;
   background-color: white;
   border-radius: 10px;
   max-width: 500px;
@@ -21,6 +20,7 @@ ion-button {
   width:60%;
   text-transform: none;
   color: white;
+  align-self: center;
 }
 
 .title {
@@ -36,14 +36,10 @@ ion-button {
   font-size: 2rem;
   font-family: Libre Baskerville;
   margin: 0;
+  text-align: center;
 }
 
 .body {
   color: white;
-  font-size: 0.75rem;
-}
-
-a {
-  color: white;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
 }
