@@ -1,0 +1,28 @@
+.custom-toolbar {
+  --background: #ffffff;
+  border-bottom: 1.5px solid var(--ion-color-ternary);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: Bold;
+  font-family: Libre Baskerville;
+  color: var(--ion-color-primary);
+  margin: 0;
+}
+
+ion-button {
+  background-color: var(--ion-color-secondary);
+  border-radius: 10px;
+}
+
+ion-icon {
+  color: #ffffff;
+}
