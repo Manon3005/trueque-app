@@ -51,3 +51,7 @@ ion-button {
   color: white;
   font-size: 0.9rem;
 }
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+}
