@@ -1,20 +1,47 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
+    component: TabsComponent,
+    children: [
+      {
+        path: 'search',
+        loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
+      },
+      {
+        path: 'favorites',
+        loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
+      },
+      {
+        path: 'new',
+        loadChildren: () => import('./pages/new/new.module').then( m => m.NewPageModule)
+      },
+      {
+        path: 'messages',
+        loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
+      },
+      {
+        path: 'account',
+        loadChildren: () => import('./pages/account/account.module').then( m => m.AccountPageModule)
+      },
+    ]
+  },
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },  {
     path: 'signup',
     loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
   },
-
 ];
 
 @NgModule({
