@@ -1,0 +1,9 @@
+.search-bar-container {
+    border-bottom: 1.5px solid var(--ion-color-secondary);
+    padding: 5px;
+    background-color: white;
+}
+
+ion-searchbar {
+    --border-radius: 10px;
+}

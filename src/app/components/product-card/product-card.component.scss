@@ -1,0 +1,25 @@
+ion-card {
+  border-radius: 16px;
+  background: var(--ion-color-ternary);
+  max-width: 200px;
+
+  ion-card-header {
+    padding: 0;
+  }
+
+  ion-card-content {
+    padding-left: 1vh;
+    font-size: 13px;
+    font-weight: Bold;
+    align-items: start;
+    color: black;
+  }
+
+  .card-image {
+    height: 30vh;
+    object-fit: scale-down;
+    padding: 1vh;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+}

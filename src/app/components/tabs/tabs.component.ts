@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
@@ -7,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class TabsComponent  implements OnInit {
+  isDesktop$: Observable<boolean>;
 
-  constructor() { }
+  constructor(private breakpointObserver: BreakpointObserver) {
+    this.isDesktop$ = this.breakpointObserver
+      .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
+      .pipe(map(result => result.matches));
+  }
 
   ngOnInit() {}
 
