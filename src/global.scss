@@ -35,3 +35,30 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+ion-menu {
+    width:20%;
+}
+
+ion-menu ion-content {
+  --background: #FB8A7C;
+  color: #ffffff;
+}
+
+ion-menu ion-content ion-list,
+ion-menu ion-content ion-list * {
+  --background: transparent;
+  background: transparent !important;
+}
+
+ion-menu ion-content ion-item {
+  --background: transparent;
+  --background-focused: transparent;
+  --background-activated: transparent;
+  --border-color: white;
+}
+
+ion-menu ion-content ion-icon,
+ion-menu ion-content ion-label {
+  color: #ffffff !important;
+}

@@ -1,5 +1,5 @@
 <ion-tabs>
-  <ion-tab-bar color="primary">
+  <ion-tab-bar *ngIf="!(isDesktop$ | async)" color="primary">
     <ion-tab-button tab="search">
       <ion-icon name="search-outline"></ion-icon>
     </ion-tab-button>

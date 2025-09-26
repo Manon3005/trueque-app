@@ -17,7 +17,7 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.productService.getProductos().subscribe((products) => {
-      this.productList = products.slice(1,21).map((product) => { return {
+      this.productList = products.slice(1,11).map((product) => { return {
         id: product.id,
         title: product.title,
         images: product.images,
