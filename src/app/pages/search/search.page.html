@@ -1,2 +1,15 @@
 <app-header></app-header>
-<ion-content></ion-content>
+<ion-content>
+<div class="search-bar-container">
+  <ion-searchbar placeholder="Mueblo, electrodoméstico, ropa..." (ionChange)="filtrarLista($event)"></ion-searchbar>
+</div>
+<div class="results-container">
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let product of visibleProductList" size="6" class="ion-no-padding">
+        <app-product-card [title]="product.title" [imageURL]="product.images[0]"></app-product-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+</ion-content>
