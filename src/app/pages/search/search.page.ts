@@ -17,10 +17,11 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.productService.getProductos().subscribe((products) => {
-      this.productList = products.slice(1,11).map((product) => { return {
+      console.log(products);
+      this.productList = products.map((product) => { return {
         id: product.id,
-        title: product.title,
-        images: product.images,
+        title: (product.title.length > 25 ? product.title.slice(0,25) : product.title),
+        images: [product.image],
         descripcion: product.description,
         state: State.NUEVO,
         location: "Unkown"

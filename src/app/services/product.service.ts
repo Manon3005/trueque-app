@@ -8,7 +8,7 @@ import { ProductAPI } from '../models/product-api';
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private API: string = "https://api.escuelajs.co/api/v1/products";
+  private API: string = "https://fakestoreapi.com/products";
 
   getProductos() : Observable<ProductAPI[]> {
     return this.http.get<ProductAPI[]>(this.API);
