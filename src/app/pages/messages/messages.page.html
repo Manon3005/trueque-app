@@ -37,16 +37,17 @@
         <ion-searchbar placeholder="Mueblo, electrodoméstico, ropa..." (ionInput)="onSearch($event)"></ion-searchbar>
     </div>
      
-      <!-- Título -->
+    <!-- Título -->
       <h2 class="page-title">Mis mensajes</h2>
+
       <ion-list>
-        <ng-container *ngFor="let t of visibleThreads; trackBy: trackById">
-          <!-- cada fila usa el componente reutilizable -->
-          <div (click)="openThread(t)">
-            <app-message-item [thread]="t"></app-message-item>
-          </div>
-        </ng-container>
+        <app-message-item
+          *ngFor="let t of visibleThreads; trackBy: trackById"
+          [thread]="t"
+          (select)="openThread($event)">
+        </app-message-item>
       </ion-list>
+
 
       <div class="footer-count">{{ visibleThreads?.length || 0 }} discusiones</div>
     </ion-content>

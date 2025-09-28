@@ -1,6 +1,7 @@
 // src/app/components/message-item/message-item.component.ts
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Thread } from 'src/app/models/message';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-message-item',
@@ -11,5 +12,9 @@ import { Thread } from 'src/app/models/message';
 })
 export class MessageItemComponent {
   @Input() thread!: Thread;
-}
+  @Output() select = new EventEmitter<Thread>();
 
+  onClick() {
+    this.select.emit(this.thread);
+  }
+}

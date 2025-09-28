@@ -1,0 +1,20 @@
+.buble-container {
+  display:flex;
+  align-items:flex-end;
+  margin: 8px 12px;
+  .avatar { width:36px; height:36px; img { width:100%; height:100%; border-radius:50%; } }
+  .buble {
+    max-width: 70%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--ion-color-light);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+    .meta { display:flex; justify-content:space-between; align-items:center; small { font-size:11px; color:#666; } .name { margin-right:6px; } }
+    .body { margin-top:4px; white-space:pre-wrap; word-wrap:break-word; }
+  }
+  &.mine {
+    justify-content:flex-end;
+    .buble { background: var(--ion-color-primary); color: white; border-bottom-right-radius:2px; }
+    .avatar { display:none; }
+  }
+}

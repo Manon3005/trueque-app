@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MessagesPageRoutingModule } from './messages-routing.module';
 
 import { MessagesPage } from './messages.page';
+import { MessageThreadPage } from './message-thread/message-thread.page';
 import { SharedModule } from 'src/app/modules/shared/shared-module';
 
 @NgModule({
@@ -17,6 +18,6 @@ import { SharedModule } from 'src/app/modules/shared/shared-module';
     MessagesPageRoutingModule,
     SharedModule
   ],
-  declarations: [MessagesPage]
+  declarations: [MessagesPage, MessageThreadPage]
 })
 export class MessagesPageModule {}

@@ -1,0 +1,14 @@
+.chat-input {
+  padding: 8px;
+  ion-item {
+    --background: transparent;
+    border-radius: 999px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+  }
+  ion-input {
+    width: 100%;
+  }
+  ion-button {
+    margin-left: 6px;
+  }
+}

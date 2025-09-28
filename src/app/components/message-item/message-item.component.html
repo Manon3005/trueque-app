@@ -1,17 +1,15 @@
-<!-- src/app/components/message-item/message-item.component.html -->
-<ion-item lines="full" class="message-item">
+<ion-item detail="false" button (click)="onClick()">
   <ion-avatar slot="start">
-    <img [src]="thread.avatar || 'assets/icon/favicon.png'">
+    <img [src]="thread.avatar || 'assets/default-avatar.png'" />
   </ion-avatar>
 
   <ion-label>
-    <h3 class="title">{{ thread.title }}</h3>
-    <p class="excerpt">{{ thread.lastMessage }}</p>
+    <h2>{{ thread.title }}</h2>
+    <p>{{ thread.lastMessage }}</p>
   </ion-label>
 
-  <div class="meta">
-    <small class="time">{{ thread.lastTimestamp | date:'shortTime' }}</small>
-    <ion-badge *ngIf="thread.unread && thread.unread > 0">{{ thread.unread }}</ion-badge>
-  </div>
+  <ion-note slot="end" *ngIf="thread.lastTimestamp">
+    {{ thread.lastTimestamp | date:'shortTime' }}
+  </ion-note>
 </ion-item>
 

@@ -1,0 +1,10 @@
+.messages-list {
+  padding: 8px 0 80px 0; /* leave room for input */
+  min-height: 100%;
+  background: linear-gradient(#fff, #fafafa);
+}
+.thread-title {
+  display:flex;
+  align-items:center;
+  img { width:36px; height:36px; border-radius:50%; margin-right:8px; }
+}
