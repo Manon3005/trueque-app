@@ -1,0 +1,17 @@
+<!-- src/app/components/message-item/message-item.component.html -->
+<ion-item lines="full" class="message-item">
+  <ion-avatar slot="start">
+    <img [src]="thread.avatar || 'assets/icon/favicon.png'">
+  </ion-avatar>
+
+  <ion-label>
+    <h3 class="title">{{ thread.title }}</h3>
+    <p class="excerpt">{{ thread.lastMessage }}</p>
+  </ion-label>
+
+  <div class="meta">
+    <small class="time">{{ thread.lastTimestamp | date:'shortTime' }}</small>
+    <ion-badge *ngIf="thread.unread && thread.unread > 0">{{ thread.unread }}</ion-badge>
+  </div>
+</ion-item>
+
