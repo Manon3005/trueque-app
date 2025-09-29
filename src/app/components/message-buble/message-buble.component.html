@@ -1,0 +1,13 @@
+<div class="buble-container" [class.mine]="isMine()">
+  <div class="avatar" *ngIf="!isMine()">
+    <img [src]="'assets/icon/favicon.png'">
+  </div>
+  <div class="buble">
+    <div class="meta">
+      <small class="name">{{ message.fromName }}</small>
+      <small class="time">{{ message.timestamp | date:'shortTime' }}</small>
+    </div>
+    <div class="body">{{ message.body }}</div>
+  </div>
+  <div class="spacer" *ngIf="isMine()"></div>
+</div>

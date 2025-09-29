@@ -1,0 +1,8 @@
+<div class="chat-input">
+  <ion-item lines="none">
+    <ion-input [(ngModel)]="text" [placeholder]="placeholder" [disabled]="disabled" (keyup.enter)="onSend()"></ion-input>
+    <ion-button fill="clear" (click)="onSend()" [disabled]="!text || text.trim().length===0" title="Enviar">
+      <ion-icon slot="icon-only" name="send"></ion-icon>
+    </ion-button>
+  </ion-item>
+</div>
