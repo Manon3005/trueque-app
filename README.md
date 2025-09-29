@@ -6,7 +6,7 @@ Trueque es una marketplace donde las personas pueden donar y recibir objetos de 
 
 Esta primera entrega tiene como objetivo definir el diseño de la aplicación y construir la estructura inicial del frontend.
 
-En la carpeta "otros" situada en la raíz del directorio encontrará:
+En la carpeta [otros](./otros) situada en la raíz del directorio encontrará:
 - un archivo con los **requerimientos** funcionales y no funcionales que hemos definido
 - un repositorio con todos los **mockups** de la aplicación
 - un archivo con el **diagrama del flujo de navegación** del usuario
