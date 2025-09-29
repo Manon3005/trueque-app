@@ -42,6 +42,11 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
   },
+  {
+    path: '404',
+    loadChildren: () => import('./pages/error/error.module').then(m => m.ErrorPageModule)
+  },
+  { path: '**', redirectTo: '404' } 
 ];
 
 @NgModule({
