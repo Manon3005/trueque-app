@@ -8,8 +8,9 @@ Esta primera entrega tiene como objetivo definir el diseño de la aplicación y 
 
 En la carpeta [otros](./otros) situada en la raíz del directorio encontrará:
 - un archivo con los **requerimientos** funcionales y no funcionales que hemos definido
-- un repositorio con todos los **mockups** de la aplicación
 - un archivo con el **diagrama del flujo de navegación** del usuario
+
+Aquí es el enlace del [Figma](https://www.figma.com/design/QyCNtTY6XdMopfxlKUff8p/Mockups?node-id=0-1&p=f&t=oAyGktkurYPzOA1O-0) con los mockups.
 
 ## Integrantes
 - Nelson Fuentes Ladron de Guevara
