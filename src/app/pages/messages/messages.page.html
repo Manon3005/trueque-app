@@ -32,14 +32,8 @@
       </ion-content>
     </ion-menu>
 
-    <ion-content>
-    <div class="search-bar-container">
-        <ion-searchbar placeholder="Mueblo, electrodoméstico, ropa..." (ionInput)="onSearch($event)"></ion-searchbar>
-    </div>
-     
+    <ion-content>    
     <!-- Título -->
-      <h2 class="page-title">Mis mensajes</h2>
-
       <ion-list>
         <app-message-item
           *ngFor="let t of visibleThreads; trackBy: trackById"
