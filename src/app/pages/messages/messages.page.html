@@ -1,2 +1,50 @@
+<!-- src/app/pages/messages/messages.page.html -->
 <app-header title="Mis mensajes"></app-header>
-<ion-content></ion-content>
+
+<ion-content>
+  <ion-split-pane>
+    <ion-menu side="start">
+      <ion-content>
+        <ion-list>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/search" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="search-outline"></ion-icon>
+              <ion-label>Buscar productos</ion-label>
+            </ion-item>
+            <ion-item routerLink="/favorites" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="heart-outline"></ion-icon>
+              <ion-label>Ver tus favoritos</ion-label>
+            </ion-item>
+            <ion-item routerLink="/new" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+              <ion-label>Crear nuevo producto</ion-label>
+            </ion-item>
+            <ion-item routerLink="/messages" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+              <ion-label>Ver tus mensajes</ion-label>
+            </ion-item>
+            <ion-item routerLink="/account" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="person-outline"></ion-icon>
+              <ion-label>Ver tu cuenta</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+
+    <ion-content>    
+    <!-- Título -->
+      <ion-list>
+        <app-message-item
+          *ngFor="let t of visibleThreads; trackBy: trackById"
+          [thread]="t"
+          (select)="openThread($event)">
+        </app-message-item>
+      </ion-list>
+
+
+      <div class="footer-count">{{ visibleThreads?.length || 0 }} discusiones</div>
+    </ion-content>
+  </ion-split-pane>
+</ion-content>
+

@@ -1,0 +1,30 @@
+/* src/app/components/message-item/message-item.component.scss */
+.message-item {
+  --padding-start: 16px;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  font-weight: 600;
+  color: #222;
+}
+
+.excerpt {
+  margin: 2px 0 0 0;
+  color: #8b8f95;
+  font-size: 13px;
+}
+
+.meta {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.time {
+  color: #777;
+  font-size: 12px;
+}

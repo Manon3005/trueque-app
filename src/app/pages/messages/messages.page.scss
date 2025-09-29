@@ -1,0 +1,27 @@
+/* src/app/pages/messages/messages.page.scss */
+
+.search-bar-container {
+    border-bottom: 1.5px solid var(--ion-color-secondary);
+    padding: 5px;
+    background-color: white;
+}
+
+ion-searchbar {
+    --border-radius: 10px;
+}
+
+
+.page-title {
+  color: var(--ion-color-primary);
+  font-size: 28px;
+  margin: 22px 24px;
+  font-weight: 600;
+  font-family: 'Libre Baskerville', serif;
+}
+
+.footer-count {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  margin: 40px 0;
+}
