@@ -15,7 +15,6 @@ Aquí es el enlace del [Figma](https://www.figma.com/design/QyCNtTY6XdMopfxlKUff
 ## Integrantes
 - Nelson Fuentes Ladron de Guevara
 - Manon Alicia Bertrand
-- Juan Pablo Pizarro Riquelme
 
 ## Pasos para Ejecutar el Proyecto
 1. Clonar el repositorio.
