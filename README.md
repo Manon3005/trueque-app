@@ -27,8 +27,9 @@ git clone https://github.com/Manon3005/trueque-app.git
 npm install
 ```
 
-3. Ejecutar la aplicación en modo desarrollo.
+3. Ejecutar el frontend de la aplicación en modo desarrollo.
 ```bash
+cd frontend
 ionic serve
 ```
 4. Abrir la aplicación en el navegador en [localhost](http://localhost:8100).
