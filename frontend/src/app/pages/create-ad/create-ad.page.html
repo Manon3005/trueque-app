@@ -1,0 +1,43 @@
+<app-header 
+  title="Nuevo Producto"
+  buttonIcon="checkmark-circle-outline">
+</app-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Título del anuncio</ion-label>
+          <ion-input [(ngModel)]="ad.title"></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-textarea [(ngModel)]="ad.description"></ion-textarea>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Precio</ion-label>
+          <ion-input type="number" [(ngModel)]="ad.price"></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="12" class="ion-text-center">
+        <ion-button expand="block" class="action-btn" (click)="createAd()">
+          Crear Anuncio
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="12" class="ion-text-center">
+        <ion-button expand="block" class="action-btn cancel-btn" (click)="cancelAd()">
+          Cancelar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

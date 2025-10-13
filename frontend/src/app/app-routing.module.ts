@@ -22,7 +22,7 @@ const routes: Routes = [
       },
       {
         path: 'new',
-        loadChildren: () => import('./pages/new/new.module').then( m => m.NewPageModule)
+        loadChildren: () => import('./pages/create-ad/create-ad.module').then( m => m.CreateAdPageModule)
       },
       {
         path: 'messages',
@@ -37,6 +37,14 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'detail',
+    loadChildren: () => import('./pages/details/details.module').then( m => m.DetailsPageModule)
+  },
+  {
+    path: 'edit',
+    loadChildren: () => import('./pages/edit-ad/edit-ad.module').then( m => m.EditAdPageModule)
   },
   {
     path: 'signup',
