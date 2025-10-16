@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="titulo">Modificación</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="imagenes-container">
+    <div class="imagen-cuadro" *ngFor="let img of imagenes">
+      <img *ngIf="img" [src]="img" alt="Imagen" />
+      <div *ngIf="!img" class="imagen-placeholder"></div>
+    </div>
+    <div class="imagen-cuadro subir">
+      <ion-icon name="folder-outline"></ion-icon>
+    </div>
+  </div>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">Título</ion-label>
+    <ion-input placeholder="Producto" [(ngModel)]="ad.title"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">Ubicación</ion-label>
+    <ion-input placeholder="Dirección del producto" [(ngModel)]="ad.location"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">Estado</ion-label>
+    <ion-input placeholder="" [(ngModel)]="ad.state"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">Descripción</ion-label>
+    <ion-textarea
+      placeholder="Lorem ipsum dolor sit amet..."
+      [(ngModel)]="ad.description">
+    </ion-textarea>
+  </ion-item>
+
+  <div class="boton-container">
+    <ion-button expand="block" color="primary" (click)="guardar()">
+      Confirmar
+    </ion-button>
+  </div>
+
+</ion-content>
