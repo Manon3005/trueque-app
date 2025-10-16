@@ -1,16 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import { User } from '../models/user'
+import { User, Role } from '../generated/prisma';
 import { jsonResponse } from '../models/json-response';
 
 let users: User[] = [
     {
         id: 0,
-        RUT: "12345678-0",
+        rut: "12345678-0",
         email: "user@mail.com",
         username: "MyUser",
-        passwordHash: "ienucifouoqu8NDjidej",
+        password: "ienucifouoqu8NDjidej",
         region: "Valparaiso",
-        city: "Vina del Mar"
+        city: "Vina del Mar",
+        role: Role.ADMIN,
+        is_suspended: false
     }
 ];
 
