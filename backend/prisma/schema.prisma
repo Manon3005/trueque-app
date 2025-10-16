@@ -23,38 +23,48 @@ enum Role {
 }
 
 model User {
-  id           Int        @id @default(autoincrement())
-  rut          String     @unique
-  email        String     @unique
-  username     String     @unique
+  id           Int     @id @default(autoincrement())
+  rut          String  @unique
+  email        String  @unique
+  username     String  @unique
   password     String
   role         Role
   city         String
   region       String
-  is_suspended Boolean    @default(false)
+  is_suspended Boolean @default(false)
 
   // Relations
-  products     Product[]
-  sentMessages Message[]  @relation("SentMessages")
-  receivedMessages Message[] @relation("ReceivedMessages")
-  favorites    Favorite[]
-  denounced    Denounced[]
+  products         Product[]
+  sentMessages     Message[]   @relation("SentMessages")
+  receivedMessages Message[]   @relation("ReceivedMessages")
+  favorites        Favorite[]
+  denounced        Denounced[]
 }
 
 model Product {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   description String
   estado      State
   city        String
   region      String
-  created_at  DateTime  @default(now())
+  created_at  DateTime @default(now())
   user_id     Int
 
   // Relations
-  user        User      @relation(fields: [user_id], references: [id])
-  favorites   Favorite[]
-  denounced   Denounced[]
+  user      User        @relation(fields: [user_id], references: [id])
+  images    Image[]
+  favorites Favorite[]
+  denounced Denounced[]
+}
+
+model Image {
+  id         Int   @id @default(autoincrement())
+  product_id Int
+  content    Bytes
+
+  // Relations
+  product Product @relation(fields: [product_id], references: [id])
 }
 
 model Favorite {
@@ -62,10 +72,10 @@ model Favorite {
   product_id Int
 
   // Relations
-  user       User     @relation(fields: [user_id], references: [id])
-  product    Product  @relation(fields: [product_id], references: [id])
+  user    User    @relation(fields: [user_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
 
-  @@id([user_id, product_id]) // clé composite
+  @@id([user_id, product_id])
 }
 
 model Denounced {
@@ -73,22 +83,22 @@ model Denounced {
   product_id Int
 
   // Relations
-  user       User     @relation(fields: [user_id], references: [id])
-  product    Product  @relation(fields: [product_id], references: [id])
+  user    User    @relation(fields: [user_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
 
-  @@id([user_id, product_id]) // clé composite
+  @@id([user_id, product_id])
 }
 
 model Message {
   sender_user_id   Int
   receiver_user_id Int
   content          String
-  sent_at          DateTime  @default(now())
-  was_seen         Boolean   @default(false)
+  sent_at          DateTime @default(now())
+  was_seen         Boolean  @default(false)
 
   // Relations
-  sender    User @relation("SentMessages", fields: [sender_user_id], references: [id])
-  receiver  User @relation("ReceivedMessages", fields: [receiver_user_id], references: [id])
+  sender   User @relation("SentMessages", fields: [sender_user_id], references: [id])
+  receiver User @relation("ReceivedMessages", fields: [receiver_user_id], references: [id])
 
-  @@id([sender_user_id, receiver_user_id, sent_at]) // identifiant composite unique
+  @@id([sender_user_id, receiver_user_id, sent_at])
 }
