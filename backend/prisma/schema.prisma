@@ -46,8 +46,7 @@ model Product {
   title       String
   description String
   estado      State
-  city        String
-  region      String
+  location    String
   created_at  DateTime @default(now())
   user_id     Int
 
