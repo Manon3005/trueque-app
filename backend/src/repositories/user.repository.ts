@@ -1,4 +1,4 @@
-import { prisma } from "../database/db";
+import { prisma } from "../config/db";
 import { User, Role } from "../generated/prisma";
 
 async function getByEmail(email: string): Promise<User | null> {
