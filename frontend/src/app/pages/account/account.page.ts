@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from 'src/app/models/product';
 
 @Component({
   selector: 'app-account',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class AccountPage implements OnInit {
 
   constructor() { }
-
+  userProduct: Product[] = [];
   ngOnInit() {
   }
 

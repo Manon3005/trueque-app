@@ -1,3 +1,6 @@
 <ion-item lines="none">
-    <ion-input [label]="label" labelPlacement="stacked" [placeholder]="placeholder"></ion-input>
+    <ion-input [label]="label" labelPlacement="stacked" [placeholder]="placeholder" [value]="value" [disabled]="isDisabled" [type]="type"></ion-input>
+    <ion-button *ngIf="hasButtonEdit" fill="clear" shape="round" slot="end" (click)="changeStatus()">
+        <ion-icon slot="icon-only" [name]="icon"></ion-icon>
+    </ion-button>
 </ion-item>
