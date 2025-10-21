@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title class="titulo">Trueque</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="imagenes-container">
+    <div class="imagen-cuadro" *ngFor="let img of imagenes">
+      <img *ngIf="img" [src]="img" alt="Imagen" />
+      <div *ngIf="!img" class="imagen-placeholder"></div>
+    </div>
+  </div>
+
+  <div class="contenido">
+    <h2 class="producto-titulo">Título</h2>
+    <p class="descripcion">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    </p>
+
+    <div class="info">
+      <div class="info-item">
+        <ion-icon name="location-outline"></ion-icon>
+        <span>Dirección del producto</span>
+      </div>
+      <div class="info-item">
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <span>Estado del producto</span>
+      </div>
+    </div>
+
+    <div class="perfil">
+      <ion-avatar>
+        <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Donador">
+      </ion-avatar>
+      <span class="rol">Donador</span>
+      <ion-button color="danger" size="small">Contactar</ion-button>
+    </div>
+  </div>
+
+</ion-content>

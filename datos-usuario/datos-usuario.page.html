@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title class="titulo">Mi cuenta</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="settings-outline" class="icono-ajustes"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="contenedor">
+    <div class="menu-lateral">
+      <ion-list>
+        <ion-item lines="none">
+          <ion-icon name="search-outline"></ion-icon>
+          <ion-label>Buscar productos</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="heart-outline"></ion-icon>
+          <ion-label>Ver tus favoritos</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          <ion-label>Crear nuevo producto</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon name="chatbubble-outline"></ion-icon>
+          <ion-label>Ver tus mensajes</ion-label>
+        </ion-item>
+        <ion-item lines="none" class="activo">
+          <ion-icon name="person-outline"></ion-icon>
+          <ion-label>Ver tu cuenta</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="contenido">
+      <div class="perfil">
+        <ion-avatar>
+          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Usuario">
+        </ion-avatar>
+        <h3>Usuario</h3>
+      </div>
+
+      <div class="datos">
+        <h4>Mis datos</h4>
+        <ion-item lines="none">
+          <ion-label position="stacked">Correo electrónico</ion-label>
+          <ion-input value="usuario@gmail.com"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="stacked">Contraseña</ion-label>
+          <ion-input type="password" value="********"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label position="stacked">Fecha de nacimiento</ion-label>
+          <ion-input value="01/01/1970"></ion-input>
+        </ion-item>
+      </div>
+
+      <div class="anuncios">
+        <h4>Mis anuncios</h4>
+        <div class="imagenes-container">
+          <div class="imagen-cuadro" *ngFor="let img of imagenes">
+            <img *ngIf="img" [src]="img" alt="Imagen" />
+            <div *ngIf="!img" class="imagen-placeholder"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

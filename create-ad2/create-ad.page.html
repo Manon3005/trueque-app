@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="titulo">Nuevo producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="imagenes-container">
+    <div class="imagen-cuadro" *ngFor="let img of imagenes">
+      <img *ngIf="img" [src]="img" alt="Imagen" />
+      <div *ngIf="!img" class="imagen-placeholder"></div>
+    </div>
+    <div class="imagen-cuadro subir">
+      <ion-icon name="folder-outline"></ion-icon>
+    </div>
+  </div>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">Título</ion-label>
+    <ion-input placeholder="" [(ngModel)]="ad.title"></ion-input>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">Ubicación</ion-label>
+    <ion-input placeholder="" [(ngModel)]="ad.location"></ion-input>
+    <ion-icon slot="end" name="location-outline"></ion-icon>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label position="stacked">Estado</ion-label>
+    <ion-select [(ngModel)]="ad.state">
+      <ion-select-option value="nuevo">Nuevo</ion-select-option>
+      <ion-select-option value="usado">Usado</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-lab
