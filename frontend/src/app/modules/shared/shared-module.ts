@@ -9,14 +9,16 @@ import { MessageItemComponent } from '../../components/message-item/message-item
 import { ChatInputComponent } from '../../components/chat-input/chat-input.component';
 import { MessageBubleComponent } from '../../components/message-buble/message-buble.component';
 import { FormsModule } from '@angular/forms';
+import { PasswordValidatorDirective } from 'src/app/directives/password-validator.directive';
+import { PasswordMatchDirective } from 'src/app/directives/password-match.directive';
 
 @NgModule({
-  declarations: [InputComponent, HeaderComponent, TabsComponent, ProductCardComponent, MessageItemComponent, ChatInputComponent, MessageBubleComponent],
+  declarations: [InputComponent, HeaderComponent, TabsComponent, ProductCardComponent, MessageItemComponent, ChatInputComponent, MessageBubleComponent, PasswordValidatorDirective, PasswordMatchDirective],
   imports: [
     CommonModule,
     IonicModule,
     FormsModule
   ],
-  exports: [InputComponent, HeaderComponent, TabsComponent, ProductCardComponent, MessageItemComponent, ChatInputComponent, MessageBubleComponent]
+  exports: [InputComponent, HeaderComponent, TabsComponent, ProductCardComponent, MessageItemComponent, ChatInputComponent, MessageBubleComponent, PasswordValidatorDirective, PasswordMatchDirective]
 })
 export class SharedModule { }

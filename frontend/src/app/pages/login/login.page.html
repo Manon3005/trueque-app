@@ -7,10 +7,30 @@
       <ion-row class="ion-justify-content-center ion-align-items-center">
         <div class="sign-in-forms">
           <p class="sub-title">Bienvenido</p>
-          <app-input label="Correo electrónico" placeholder="" type="email"></app-input>
-          <app-input label="Contraseña" placeholder="" type="password"></app-input>
-          <ion-button href="./search">Iniciar sesión</ion-button>
-        </div> 
+          <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+            <ion-input
+              label="Correo electrónico"
+              type="email"
+              labelPlacement="stacked"
+              errorText="Introduzca una dirección de correo electrónico válida"
+              name="email"
+              ngModel
+              required
+              email>
+            </ion-input>
+            <ion-input
+              label="Contraseña"
+              type="password"
+              labelPlacement="stacked"
+              errorText="Mínimo 8 caracteres, con al menos una mayúscula, una minúscula y un número"
+              name="password"
+              ngModel
+              required
+              appPasswordValidator>
+            </ion-input>
+            <ion-button type="submit">Iniciar sesión</ion-button>
+          </form>
+        </div>
       </ion-row>
       <ion-row class="ion-justify-content-center ion-align-items-center">
         <p class="body">No tienes cuenta? 

@@ -12,15 +12,77 @@
       </ion-row>
       <ion-row class="ion-justify-content-center ion-align-items-center">
           <div class="sign-up-forms">
-            <app-input label="RUT" placeholder=""></app-input>
-            <app-input label="Correo electrónico" placeholder="" type="email"></app-input>
-            <app-input label="Nombre de usuario" placeholder=""></app-input>
-            <app-input label="Contraseña" placeholder="" type="password"></app-input>
-            <app-input label="Confirmación de contraseña" placeholder="" type="password"></app-input>
-            <app-input label="Región" placeholder=""></app-input>
-            <app-input label="Comuna" placeholder=""></app-input>
-            <ion-checkbox labelPlacement="end">He leido y acepto terminos y condiciones.</ion-checkbox>
-          <ion-button>Registrarse</ion-button>
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+              <ion-input
+                label="RUT"
+                labelPlacement="stacked"
+                errorText="No puede estar vacillo"
+                name="rut"
+                ngModel
+                required>
+              </ion-input>
+              <ion-input
+                label="Correo electrónico"
+                type="email"
+                labelPlacement="stacked"
+                errorText="Introduzca una dirección de correo electrónico válida"
+                name="email"
+                ngModel
+                required
+                email>
+              </ion-input>
+              <ion-input
+                label="Nombre de usuario"
+                labelPlacement="stacked"
+                errorText="No puede estar vacillo"
+                name="username"
+                ngModel
+                required>
+              </ion-input>
+              <ion-input
+                label="Contraseña"
+                type="password"
+                labelPlacement="stacked"
+                errorText="Mínimo 8 caracteres, con al menos una mayúscula, una minúscula y un número"
+                name="password"
+                ngModel
+                required
+                appPasswordValidator>
+              </ion-input>
+              <ion-input
+                label="Confirmación de contraseña"
+                type="password"
+                labelPlacement="stacked"
+                errorText="Ambos campos de contraseña deben ser iguales"
+                name="confirmPassword"
+                ngModel
+                required
+                [appPasswordMatch]="'password'">
+              </ion-input>
+              <ion-input
+                label="Región"
+                labelPlacement="stacked"
+                errorText="No puede estar vacillo"
+                name="region"
+                ngModel
+                required>
+              </ion-input>
+              <ion-input
+                label="Comuna"
+                labelPlacement="stacked"
+                errorText="No puede estar vacillo"
+                name="comuna"
+                ngModel
+                required>
+              </ion-input>
+              <ion-item lines="none">
+                <ion-label>
+                  He leido y acepto <a href="#">terminos y condiciones.</a>
+                </ion-label>
+                <ion-checkbox slot="start" name="acceptTerms" ngModel required></ion-checkbox>
+              </ion-item>
+              <ion-button type="submit">Registrarse</ion-button>
+            </form>
         </div> 
       </ion-row>
     </ion-col>
