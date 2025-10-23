@@ -1,7 +1,6 @@
 import { State } from "../generated/prisma";
 
 export interface CreateProductDto {
-    user_id: number,
     title: string,
     description: string,
     images: Buffer[],
@@ -10,7 +9,6 @@ export interface CreateProductDto {
 }
 
 export interface UpdateIsDenouncedDto {
-    user_id: number,
     is_denounced: boolean
 }
 
@@ -23,14 +21,9 @@ export interface UpdateProductDto {
 }
 
 export interface UpdateIsFavoriteDto {
-    user_id: number,
     is_favorite: boolean
 }
 
 export interface GetProductRequestDto {
     request: string 
-}
-
-export interface GetProductFromUserDto {
-    user_id: number 
 }
