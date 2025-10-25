@@ -7,6 +7,12 @@ export interface CreateUserDto {
     city: string
 }
 
+export interface LoginUserDto {
+    email: string,
+    password: string
+}
+
+
 export interface UpdateUserDto {
     email: string,
     username: string,
