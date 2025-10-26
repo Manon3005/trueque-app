@@ -60,6 +60,14 @@ async function login(req: Request, res: Response) {
       });
     }
 
+    if (user.is_suspended) {
+      return res.status(403).json({
+        code: 403,
+        message: "User suspended.",
+        data: null
+      });
+    }
+
     const token = jwt.sign({ 
         userId: user.id,
         role: user.role 
