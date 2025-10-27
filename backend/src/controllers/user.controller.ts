@@ -72,7 +72,7 @@ async function login(req: Request, res: Response) {
         userId: user.id,
         role: user.role 
       }, 
-      "trueque-secret-key", 
+      process.env.JWT_SECRET_KEY!,
       { expiresIn: "1h" }
     );
     const result: JsonResponse = {
