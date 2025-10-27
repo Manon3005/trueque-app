@@ -8,6 +8,7 @@ import { NgForm } from '@angular/forms';
   standalone: false
 })
 export class SignupPage implements OnInit {
+  acceptTerms: boolean = false;
 
   constructor() { }
 

@@ -79,7 +79,7 @@
                 <ion-label>
                   He leido y acepto <a href="#">terminos y condiciones</a>.
                 </ion-label>
-                <ion-checkbox slot="start" name="acceptTerms" ngModel required></ion-checkbox>
+                <ion-checkbox slot="start" name="acceptTerms" [(ngModel)]="acceptTerms" required></ion-checkbox>
               </ion-item>
               <ion-button type="submit">Registrarse</ion-button>
             </form>
