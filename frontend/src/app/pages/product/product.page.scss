@@ -1,0 +1,52 @@
+swiper-container {
+    width: 80%;
+}
+
+img {
+    border-radius: 10px;
+    border: 1px solid black;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    width: 50vh;
+}
+
+.product-info {
+    margin: 10px;
+}
+
+.title-item {
+    border-bottom: 1px solid var(--ion-color-secondary);
+}
+
+.product-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 auto;
+}
+
+.product-description {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.donor-card {
+  margin-top: 1rem;
+  border-radius: 12px;
+  box-shadow: none;
+  border: 1px solid #eee;
+  padding: 0.25rem 0.5rem;
+}
+
+ion-button {
+  text-transform: none;
+  color: white;
+  display: block;
+  margin: 0 auto;
+}
+
+ion-icon {
+  color: var(--ion-color-primary);
+  font-size: 30px;
+}

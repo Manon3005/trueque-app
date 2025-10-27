@@ -16,18 +16,9 @@ export class SearchPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.productService.getProductos().subscribe((products) => {
-      console.log(products);
-      this.productList = products.map((product) => { return {
-        id: product.id,
-        title: (product.title.length > 25 ? product.title.slice(0,25) : product.title),
-        images: [product.image],
-        descripcion: product.description,
-        state: State.NUEVO,
-        location: "Unkown"
-      }})
-      this.visibleProductList = this.productList;
-    })
+    /*this.productService.getProductos().subscribe((products) => {
+      //TO DO: map results
+    })*/
   }
   
   filtrarLista(event: any) {

@@ -3,8 +3,9 @@ import { State } from "./state";
 export interface Product {
     id: number;
     title: string;
-    descripcion: string;
+    description: string;
     images: string[];
-    state: State;
+    state: string;
     location: string;
+    username: string;
 }
