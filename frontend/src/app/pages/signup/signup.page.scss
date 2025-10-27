@@ -6,7 +6,9 @@ ion-button {
   width:40%;
   text-transform: none;
   color: white;
-  align-self: center;
+  display: block;
+  margin: 0 auto;
+  padding-top: 10px;
 }
 
 .sign-up-forms {
@@ -54,4 +56,8 @@ ion-button {
 
 ion-checkbox::part(container) {
   border-radius: 6px;
+}
+
+ion-input {
+  --highlight-color-valid: var(--ion-color-primary);
 }

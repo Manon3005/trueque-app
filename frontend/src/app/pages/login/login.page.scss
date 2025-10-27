@@ -9,7 +9,7 @@ ion-content {
   border-radius: 10px;
   max-width: 500px;
   min-width: 250px;
-  width: fit-content;  
+  width: 50%;  
   height: auto;
   gap: 5vh;
   padding:4vh;
@@ -17,10 +17,12 @@ ion-content {
 }
 
 ion-button {
-  width:60%;
+  width:40%;
   text-transform: none;
   color: white;
-  align-self: center;
+  display: block;
+  margin: 0 auto;
+  padding-top: 10px;
 }
 
 .title {
@@ -42,4 +44,8 @@ ion-button {
 .body {
   color: white;
   font-size: 0.9rem;
+}
+
+ion-input {
+  --highlight-color-valid: var(--ion-color-primary);
 }

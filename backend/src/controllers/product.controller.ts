@@ -50,36 +50,17 @@ async function getAll(req: Request, res: Response) {
   try {
     const page = parseInt(req.query.page as string);
     const pageSize = parseInt(req.query.pageSize as string);
-    const products = await ProductRepository.getAll(page, pageSize);
-    const amount = await ProductRepository.count();
 
-    const result: JsonResponse = {
-      code: 200,
-      message: "Products sent successfully.",
-      data: {
-        products: products,
-        totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
-      }
+    let products, amount;
+    if (req.query.request) {
+      const request = req.query.request as string;
+      products = await ProductRepository.searchAll(request, page, pageSize);
+      amount = await ProductRepository.countRequest(request);
+    } else {
+      products = await ProductRepository.getAll(page, pageSize);
+      amount = await ProductRepository.count();
     }
-    res.status(200).json(result);
-  } catch (error) {
-    const result: JsonResponse = {
-      code: 400,
-      message: "Error in getting products.",
-      data: null
-    }
-    res.status(400).json(result);
-  }
-}
-
-async function getAllWithRequest(req: Request, res: Response) {
-  try {
-    const body = req.body as GetProductRequestDto;
-    const page = parseInt(req.query.page as string);
-    const pageSize = parseInt(req.query.pageSize as string);
-    const products = await ProductRepository.searchAll(body.request, page, pageSize);
-    const amount = await ProductRepository.countRequest(body.request);
-
+    
     const result: JsonResponse = {
       code: 200,
       message: "Products sent successfully.",
@@ -203,7 +184,6 @@ export const ProductController = {
   update,
   getAll,
   updateIsDenounced,
-  getAllWithRequest,
   updateIsFavorite,
   get,
   remove,
