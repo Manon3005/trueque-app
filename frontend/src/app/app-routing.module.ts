@@ -46,7 +46,11 @@ const routes: Routes = [
     path: '404',
     loadChildren: () => import('./pages/error/error.module').then(m => m.ErrorPageModule)
   },
-  { path: '**', redirectTo: '404' } 
+  {
+    path: 'product',
+    loadChildren: () => import('./pages/product/product.module').then( m => m.ProductPageModule)
+  },
+  { path: '**', redirectTo: '404' },
 ];
 
 @NgModule({

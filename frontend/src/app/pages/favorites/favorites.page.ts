@@ -16,18 +16,7 @@ export class FavoritesPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.productService.getProductos().subscribe((products) => {
-      console.log(products);
-      this.productList = products.slice(10,13).map((product) => { return {
-        id: product.id,
-        title: (product.title.length > 25 ? product.title.slice(0,25) : product.title),
-        images: [product.image],
-        descripcion: product.description,
-        state: State.NUEVO,
-        location: "Unkown"
-      }})
-      this.visibleProductList = this.productList;
-    })
+    //TO DO: get user favorites products
   }
 
 }

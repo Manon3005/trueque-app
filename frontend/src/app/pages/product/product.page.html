@@ -1,0 +1,64 @@
+<app-header title="Producto"></app-header>
+<ion-content>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/search"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <swiper-container
+    slides-per-view="2.5"
+    pagination="true" 
+    pagination-clickable="true" 
+    space-between="30"
+    centered-slides="true"
+    (swiperprogress)="onProgress($any($event))"
+    (swiperslidechange)="onSlideChange()"
+  >
+    <swiper-slide *ngFor="let image of product.images">
+      <img [src]="image">
+    </swiper-slide>
+  </swiper-container>
+  <div class="product-info">
+    <ion-item class="title-item" lines="none">
+      <ion-button fill="clear" shape="round" slot="end" (click)="setFavorite()">
+        <ion-icon slot="icon-only" [name]="icon"></ion-icon>
+      </ion-button>
+      <ion-label class="product-title">Título</ion-label>
+    </ion-item>
+    <p class="product-description">
+      {{product.description}}
+    </p>
+
+    <ion-item lines="none">
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      <ion-label>
+        <strong>{{product.location}}</strong>
+      </ion-label>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-icon name="star-outline" slot="start"></ion-icon>
+      <ion-label>
+        <strong>{{product.state}}</strong>
+      </ion-label>
+    </ion-item>
+
+  <!-- Section Donateur -->
+    <ion-card class="donor-card">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Donador" />
+        </ion-avatar>
+        <ion-label>
+          <strong>{{product.username}}</strong>
+        </ion-label>
+        <ion-button slot="end" fill="solid">
+          Contactar
+        </ion-button>
+      </ion-item>
+    </ion-card>
+  </div>
+  <div class="denounce-text">
+    <p>Anuncio fraudulento? <a href="#">Denuncia aquí</a>.</p>
+  </div>
+</ion-content>
