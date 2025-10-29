@@ -16,14 +16,14 @@ export class SearchPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.productService.getProductos().subscribe((products) => {
+    this.productService.getAll().subscribe((products: any) => {
       console.log(products);
-      this.productList = products.map((product) => { return {
+      this.productList = products.map((product: any) => { return {
         id: product.id,
         title: (product.title.length > 25 ? product.title.slice(0,25) : product.title),
         images: [product.image],
         descripcion: product.description,
-        state: State.NUEVO,
+        state: State.NEW,
         location: "Unkown"
       }})
       this.visibleProductList = this.productList;
