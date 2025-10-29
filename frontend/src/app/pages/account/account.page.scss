@@ -54,3 +54,17 @@ h4 {
   margin-top: 20px;
   font-weight: 600;
 }
+
+ion-button {
+  width:40%;
+  text-transform: none;
+  color: white;
+  display: block;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.avatar-wrapper {
+  display: inline-block;
+  cursor: pointer;
+}

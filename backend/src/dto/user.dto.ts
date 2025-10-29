@@ -25,6 +25,10 @@ export interface UpdateIsSuspendedDto {
     is_suspended: boolean
 }
 
+export interface UpdatePictureDto {
+    picture: Buffer
+}
+
 export interface GetAllUserDto {
     id: number,
     rut: string,

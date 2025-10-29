@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { JsonResponse } from '../models/json-response';
 import { UserRepository } from '../repositories/user.repository';
-import { CreateUserDto, LoginUserDto, UpdateIsSuspendedDto, UpdateUserDto } from '../dto/user.dto';
+import { CreateUserDto, LoginUserDto, UpdateIsSuspendedDto, UpdatePictureDto, UpdateUserDto } from '../dto/user.dto';
 import bcrypt from 'bcrypt'
 import { Role, Prisma } from '../generated/prisma';
 import jwt from 'jsonwebtoken'
@@ -174,10 +174,51 @@ async function updateIsSuspended(req: Request, res: Response) {
   }
 }
 
+async function remove(req: AuthenticatedRequest, res: Response) {
+  try {
+    const product = await UserRepository.remove(req.userId!);
+    const result: JsonResponse = {
+      code: 200,
+      message: "User deleted successfully.",
+      data: product
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    const result: JsonResponse = {
+      code: 400,
+      message: "Error in deleting user.",
+      data: null
+    }
+    res.status(400).json(result);
+  }
+}
+
+async function updatePicture(req: AuthenticatedRequest, res: Response) {
+  try {
+    const body = req.body as UpdatePictureDto;
+    await UserRepository.updatePicture(req.userId!, body.picture);
+    const result: JsonResponse = {
+      code: 200,
+      message: "User updated successfully.",
+      data: null
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    const result: JsonResponse = {
+      code: 400,
+      message: "Error in updating user.",
+      data: null
+    }
+    res.status(400).json(result);
+  }
+}
+
 export const UserController = {
   create,
   update,
   getAll,
   updateIsSuspended,
-  login
+  login,
+  remove,
+  updatePicture
 }
