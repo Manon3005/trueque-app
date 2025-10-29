@@ -3,19 +3,19 @@ swiper-container {
 }
 
 img {
-    border-radius: 10px;
-    border: 1px solid black;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    width: 50vh;
+  border-radius: 10px;
+  border: 1px solid black;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 50vh;
 }
 
 .product-info {
-    margin: 10px;
+  margin: 10px;
 }
 
 .title-item {
-    border-bottom: 1px solid var(--ion-color-secondary);
+  border-bottom: 1px solid var(--ion-color-secondary);
 }
 
 .product-title {
@@ -49,4 +49,15 @@ ion-button {
 ion-icon {
   color: var(--ion-color-primary);
   font-size: 30px;
+}
+
+.denounce-text {
+  display: flex;
+  justify-content: center;
+  color: grey;
+  font-size: small;
+
+  p {
+    margin-top: 0 auto;
+  }
 }
