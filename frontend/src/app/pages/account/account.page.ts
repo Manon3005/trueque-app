@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product } from 'src/app/models/product';
 
 @Component({
@@ -8,10 +8,27 @@ import { Product } from 'src/app/models/product';
   standalone: false,
 })
 export class AccountPage implements OnInit {
+  @ViewChild('filePicker') filePicker!: ElementRef<HTMLInputElement>;
+  avatarUrl: string = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+  userProduct: Product[] = [];
 
   constructor() { }
-  userProduct: Product[] = [];
   ngOnInit() {
+  }
+
+  chooseImage() {
+    this.filePicker.nativeElement.click();
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.avatarUrl = reader.result as string; // Mise à jour de l’avatar
+    };
+    reader.readAsDataURL(file);
   }
 
 }

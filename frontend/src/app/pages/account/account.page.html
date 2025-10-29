@@ -35,20 +35,24 @@
     <ion-content>
       <div class="contenido">
         <div class="perfil">
-          <ion-avatar>
-            <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Usuario">
-          </ion-avatar>
-          <h3>Usuario</h3>
+          <div class="avatar-wrapper" (click)="chooseImage()">
+            <ion-avatar>
+              <img [src]="avatarUrl" alt="avatar" />
+            </ion-avatar>
+            <input type="file" #filePicker accept="image/*" hidden (change)="onFileSelected($event)">
+          </div>
+          <h3>RUT</h3>
         </div>
 
         <div class="datos">
           <h4>Mis datos</h4>
-          <app-input label="RUT" placeholder="" value="11111111-1" [hasButtonEdit]="true"></app-input>
+          <app-input label="Nombre de usuario" placeholder="" value="Usuario" [hasButtonEdit]="true"></app-input>
           <app-input label="Correo electrónico" placeholder="" value="usuario@mail.com" [hasButtonEdit]="true"></app-input>
           <app-input label="Contraseña" placeholder="" value="password" [hasButtonEdit]="true" type="password"></app-input>
           <app-input label="Región" placeholder="" value="Región de Valparaíso" [hasButtonEdit]="true"></app-input>
           <app-input label="Comuna" placeholder="" value="Viña del Mar" [hasButtonEdit]="true"></app-input>
         </div>
+        <ion-button color="danger">Eliminar cuenta</ion-button>
 
         <div class="anuncios">
           <h4>Mis anuncios</h4>
