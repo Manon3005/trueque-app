@@ -32,7 +32,18 @@ async function update(id: number, email: string, username: string, password: str
       username: username,
       password: password,
       region: region,
-      city: city
+      city: city,
+    }
+  })
+}
+
+async function updatePicture(id: number, picture: Buffer): Promise<User>   {
+  return await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      picture: picture
     }
   })
 }
@@ -66,11 +77,21 @@ async function count(): Promise<number> {
   return await prisma.user.count();
 }
 
+async function remove(id: number): Promise<User | null> {
+    return await prisma.user.delete({
+        where: {
+            id: id
+        }
+    });
+}
+
 export const UserRepository = {
     getByEmail,
     create,
     update,
     updateIsSuspended,
     getAll,
-    count
+    count,
+    remove,
+    updatePicture
 }
