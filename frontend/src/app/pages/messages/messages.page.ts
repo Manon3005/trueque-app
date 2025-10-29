@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Messages } from '../../services/messages';
+import { Messages } from '../../services/message.service';
 import { Thread } from '../../models/message';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';

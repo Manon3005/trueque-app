@@ -21,7 +21,7 @@ export function verifyToken(req: AuthenticatedRequest, res: Response, next: Next
             });
         }
         const token = authHeader.replace(/^Bearer\s+/, '');
-        const decoded = jwt.verify(token, 'trueque-secret-key') as UserJwtPayload;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY!) as UserJwtPayload;
         req.userId = decoded.userId;
         req.role = decoded.role;
         next();

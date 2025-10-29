@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Messages } from '../../../services/messages';
+import { Messages } from '../../../services/message.service';
 import { Thread, Message } from '../../../models/message';
 import { Observable, Subscription } from 'rxjs';
 import { IonContent } from '@ionic/angular';
