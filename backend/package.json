@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "prisma": "npx prisma generate",
+    "postinstall": "npx prisma generate",
+    "db:setup": "npx prisma migrate dev --name init",
+    "db:reset": "npx prisma migrate reset",
     "build": "tsc && npm run copy-files",
     "copy-files": "copyfiles -u 1 src/generated/prisma/** dist/",
     "start": "node dist/server.js"
