@@ -71,6 +71,7 @@ Thumbs.db
 
 # Prisma
 */src/generated/prisma
+*/trueque.db
 
 
 # Env
