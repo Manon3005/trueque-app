@@ -19,8 +19,12 @@ import { provideHttpClient } from '@angular/common/http';
     IonicModule.forRoot({
       animated: false
     }), 
-    AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient()],
+    AppRoutingModule,
+    HttpClientModule],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
+              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+              provideHttpClient()
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
