@@ -19,7 +19,7 @@ interface LoginResponse {
 export class AuthService {
   private http = inject(HttpClient);
   private userService = inject(UserService);
-  private baseUrl = `${environment.apiUrl}/auth`;
+  private baseUrl = `${environment.apiUrl}/users`;
 
   private _isLoggedIn$ = new BehaviorSubject<boolean>(!!this.getToken());
   public isLoggedIn$ = this._isLoggedIn$.asObservable();
