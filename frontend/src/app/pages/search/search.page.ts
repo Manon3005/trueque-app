@@ -15,19 +15,41 @@ export class SearchPage implements OnInit {
   private productService = inject(ProductService);
   constructor() { }
 
+// src/app/pages/search/search.page.ts
+
   ngOnInit() {
-    this.productService.getAll().subscribe((products: any) => {
-      console.log(products);
-      this.productList = products.data.items.map((product: any) => { return {
-        id: product.id,
-        title: (product.title.length > 25 ? product.title.slice(0,25) : product.title),
-        images: [product.image],
-        descripcion: product.description,
-        state: State.NEW,
-        location: "Unkown"
-      }})
-      this.visibleProductList = this.productList;
-    })
+    this.productService.getAll().subscribe({
+      
+      next: (response: any) => {
+        console.log('Productos recibidos!', response);
+        // Verificamos que la respuesta sea la esperada
+        if (response && response.data && Array.isArray(response.data.products)) {
+          
+          this.productList = response.data.products.map((product: any) => { 
+            return {
+              id: product.id,
+              title: product.title,
+              images: product.images,
+              description: product.description,
+              state: product.state,
+              location: product.location
+            }
+          });
+          
+          this.visibleProductList = this.productList;
+
+        } else {
+          console.error('La respuesta del backend no tiene el formato esperado.', response);
+          this.productList = [];
+          this.visibleProductList = [];
+        }
+      },
+      error: (err: any) => {
+        console.error('Error al cargar los productos!', err);
+        this.productList = [];
+        this.visibleProductList = [];
+      }
+    });
   }
   
   filtrarLista(event: any) {
