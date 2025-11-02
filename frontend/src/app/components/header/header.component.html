@@ -3,7 +3,7 @@
     <div class="header-container">
       <h1 class="header-title">{{ title }}</h1>
       <ion-buttons *ngIf="buttonIcon" slot="end">
-        <ion-button>
+        <ion-button (click)="onClick()">
           <ion-icon [name]="buttonIcon" slot="icon-only"></ion-icon>
         </ion-button>
       </ion-buttons>

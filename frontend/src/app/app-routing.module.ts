@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { TabsComponent } from './components/tabs/tabs.component';
+import { userProductsResolver, userResolver } from './resolvers/user.resolver';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
@@ -30,7 +31,11 @@ const routes: Routes = [
       },
       {
         path: 'account',
-        loadChildren: () => import('./pages/account/account.module').then( m => m.AccountPageModule)
+        loadChildren: () => import('./pages/account/account.module').then( m => m.AccountPageModule),
+        resolve: {
+          user: userResolver,
+          userProducts: userProductsResolver
+        }
       },
     ]
   },
@@ -51,7 +56,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, onSameUrlNavigation: 'reload' })
   ],
   exports: [RouterModule]
 })

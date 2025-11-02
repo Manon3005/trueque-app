@@ -1,17 +1,13 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { provideRouter, Router, RouteReuseStrategy, withNavigationErrorHandler } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
-//-- ¡IMPORTACION INTERCEPTOR! --
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-
-
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { provideHttpClient } from '@angular/common/http';
+import { AppRoutingModule, routes } from './app-routing.module';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +16,13 @@ import { provideHttpClient } from '@angular/common/http';
       animated: false
     }), 
     AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient()],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
+    provideHttpClient(withInterceptors([authInterceptor]),),
+    provideRouter(routes, withNavigationErrorHandler((error) => {
+      const router = inject(Router);
+      router.navigate(['/404']); //TODO: create an error page
+    }))
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

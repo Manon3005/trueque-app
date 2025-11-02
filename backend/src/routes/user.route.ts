@@ -1,11 +1,14 @@
 import { Router } from 'express';
 import { UserController } from '../controllers/user.controller';
 import { verifyToken } from '../middlewares/auth.middleware';
+import multer from 'multer';
+const upload = multer();
 
 const userRoutes = Router();
 
+userRoutes.get('/me', verifyToken, UserController.get);
 userRoutes.get('/', verifyToken, UserController.getAll);
-userRoutes.patch('/picture', UserController.updatePicture);
+userRoutes.patch('/picture', verifyToken, upload.single('picture'), UserController.updatePicture);
 userRoutes.put('/', verifyToken, UserController.update);
 userRoutes.post('/new', UserController.create);
 userRoutes.post('/login', UserController.login);
