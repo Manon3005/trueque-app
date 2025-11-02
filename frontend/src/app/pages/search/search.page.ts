@@ -10,8 +10,8 @@ import { ProductService } from '../../services/product.service';
   standalone: false
 })
 export class SearchPage implements OnInit {
-  productList: Product[] = [];
-  visibleProductList: Product[] = [];
+  productList: any[] = [];
+  visibleProductList: any[] = [];
   private productService = inject(ProductService);
   constructor() { }
 
@@ -26,13 +26,16 @@ export class SearchPage implements OnInit {
         if (response && response.data && Array.isArray(response.data.products)) {
           
           this.productList = response.data.products.map((product: any) => { 
+
+            const firstImageBuffer = product.images?.[0]?.content;
+
             return {
               id: product.id,
               title: product.title,
-              images: product.images,
-              description: product.description,
+              firstimage: this.buffeToDataURL(firstImageBuffer),
               state: product.state,
-              location: product.location
+              location: product.location,
+              antiquity: this.timeago(product.created_at)
             }
           });
           
@@ -55,6 +58,51 @@ export class SearchPage implements OnInit {
   filtrarLista(event: any) {
     const research = event.target.value.toLocaleLowerCase();
     this.visibleProductList = this.productList.filter((product) => product.title.toLocaleLowerCase().includes(research));
+  }
+
+  //funcion para calcular tiempo de publicacion
+  timeago(dateString: string): string {
+    if (!dateString) return '';
+
+    const date= new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    let interval = seconds / 31536000;
+    if (interval > 1) {
+      return "hace " + Math.floor(interval) + (Math.floor(interval) === 1 ? " año" : " años");
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+      return "hace " + Math.floor(interval) + (Math.floor(interval) === 1 ? " mes" : " meses");
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+      return "hace " + Math.floor(interval) + (Math.floor(interval) === 1 ? " día" : " días");
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return "hace " + Math.floor(interval) + (Math.floor(interval) === 1 ? " hora" : " horas");
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return "hace " + Math.floor(interval) + (Math.floor(interval) === 1 ? " minuto" : " minutos");
+    }
+    return "hace " + Math.floor(seconds) + " segundos";
+  }
+
+  buffeToDataURL(bufferObject: any): string | null {
+    if (!bufferObject || bufferObject.type !== 'Buffer' || !Array.isArray(bufferObject.data)){
+      return null;
+    }
+    const byteArray = new Uint8Array(bufferObject.data);
+    
+    let binaryString = '';
+    byteArray.forEach((byte) => {
+      binaryString += String.fromCharCode(byte);
+    });
+    const base64String = btoa(binaryString);
+    return `data:image/png;base64,${base64String}`;
   }
 
 }
