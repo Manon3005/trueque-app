@@ -4,10 +4,11 @@ export interface Product {
     id: number;
     title: string;
     description: string;
-    images: string;
+    images: string[];
     state: string;
     location: string;
     created_at: Date;
-    userId: number;
+    username: string;
     isFavorite?: boolean;
+    
 }

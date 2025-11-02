@@ -22,7 +22,6 @@ export class FavoritesPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    //TO DO: get user favorites products
   }
 
 }

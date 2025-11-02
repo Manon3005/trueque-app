@@ -14,7 +14,7 @@ register();
 })
 export class ProductPage implements OnInit {
   icon: string = "heart-outline"
-  product: Product = {
+  product: Partial<Product> = {
     id: 1,
     title: "Título",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque est non viverra. Aliquam suscipit bibendum dui. Pellentesque id sodales arcu. Praesent quis volutpat arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque est non viverra. Aliquam suscipit bibendum dui. Pellentesque id sodales arcu. Praesent quis volutpat arcu.",
@@ -25,9 +25,6 @@ export class ProductPage implements OnInit {
      "https://www.creativefabrica.com/wp-content/uploads/2021/04/05/Photo-Image-Icon-Graphics-10388619-1-580x386.jpg"
     ],
     username: "Usuario"
-
-    
-
   }
   constructor() { }
 
