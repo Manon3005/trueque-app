@@ -11,7 +11,7 @@ export interface Thread {
 export interface Message {
   id: string;
   threadId: string;
-  fromUserId: string;
+  fromUserId: number;
   fromName?: string;
   body: string;
   timestamp: string; // ISO string
