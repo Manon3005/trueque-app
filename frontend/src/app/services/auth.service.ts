@@ -55,6 +55,7 @@ export class AuthService {
     return localStorage.getItem('token');
   } 
 
+  // Obtener el ID del usuario actual desde el token almacenado
   getCurrentUserId(): number | null {
     const token = this.getToken();
     if (!token) return null;

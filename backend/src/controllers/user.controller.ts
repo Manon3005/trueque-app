@@ -24,6 +24,9 @@ async function create(req: Request, res: Response) {
     }
     res.status(200).json(result);
   } catch (error) {
+    
+    console.error("fallo el registro!!", error);
+
     let message;
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       message = "Error in creating user: user with the same " + error.meta!.target + " already exists.";

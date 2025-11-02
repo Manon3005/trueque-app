@@ -85,18 +85,21 @@ export class NewPage {
       const imageBase64 = await Promise.all(
         this.imageFiles.map(file => this.toBase64(file))
       );
+      const stateAsNumber = this.form.value.state;
+      const stateAsString = State[stateAsNumber];
       //crear payload
       const payload: ProductCreationPayload = {
         title: this.form.value.title,
-        descripcion: this.form.value.description,
-        state: this.form.value.state,
+        description: this.form.value.description,
+        state: stateAsString as any,
         location: this.form.value.location,
         images: imageBase64
       };
       //llamar al mensajero de servicio
       const newProduct = await firstValueFrom(this.productService.createProduct(payload));
       //exito
-      this.presentToast('Producto publicado con éxito.', 'success');
+      await loading.dismiss();
+      await this.presentToast('Producto publicado con éxito.', 'success');
       //navegar a account para ver productos
       this.navCtrl.navigateRoot('/account');
     }
@@ -127,6 +130,6 @@ export class NewPage {
       color: color,
       position: 'top'
   });
-    toast.present();
+    await toast.present();
   }
 }
