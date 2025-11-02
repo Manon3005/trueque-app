@@ -1,10 +1,19 @@
 import { prisma } from "../config/db";
-import { GetAllUserDto } from "../dto/user.dto";
+import { GetAllUserDto, GetUserDto } from "../dto/user.dto";
 import { User, Role } from "../generated/prisma";
 
 async function getByEmail(email: string): Promise<User | null> {
   return await prisma.user.findUnique({
     where: { email }
+  });
+}
+
+async function getById(id: number): Promise<GetUserDto | null> {
+  return await prisma.user.findUnique({
+    where: { id },
+    omit: {
+      password: true
+    }
   });
 }
 
@@ -22,7 +31,7 @@ async function create(rut: string, email: string, username: string, password: st
   });
 }
 
-async function update(id: number, email: string, username: string, password: string, region: string, city: string): Promise<User>   {
+async function update(id: number, email: string, username: string, region: string, city: string): Promise<User>   {
   return await prisma.user.update({
     where: {
       id: id,
@@ -30,20 +39,20 @@ async function update(id: number, email: string, username: string, password: str
     data: {
       email: email,
       username: username,
-      password: password,
       region: region,
       city: city,
     }
   })
 }
 
-async function updatePicture(id: number, picture: Buffer): Promise<User>   {
+async function updatePicture(id: number, buffer: Uint8Array, mimeType: string): Promise<User>   {
   return await prisma.user.update({
     where: {
       id: id,
     },
     data: {
-      picture: picture
+      picture: { set: buffer },
+      pictureMime: mimeType
     }
   })
 }
@@ -93,5 +102,6 @@ export const UserRepository = {
     getAll,
     count,
     remove,
-    updatePicture
+    updatePicture,
+    getById
 }

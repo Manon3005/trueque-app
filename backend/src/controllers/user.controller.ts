@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { JsonResponse } from '../models/json-response';
 import { UserRepository } from '../repositories/user.repository';
-import { CreateUserDto, LoginUserDto, UpdateIsSuspendedDto, UpdatePictureDto, UpdateUserDto } from '../dto/user.dto';
+import { CreateUserDto, LoginUserDto, UpdateIsSuspendedDto, UpdateUserDto } from '../dto/user.dto';
 import bcrypt from 'bcrypt'
 import { Role, Prisma } from '../generated/prisma';
 import jwt from 'jsonwebtoken'
@@ -100,11 +100,8 @@ async function login(req: Request, res: Response) {
 async function update(req: AuthenticatedRequest, res: Response) {
   try {
     const body = req.body as UpdateUserDto;
-
-    const saltRounds = 2;
-    const passwordHash = await bcrypt.hash(body.password, saltRounds);
-    
-    await UserRepository.update(req.userId!, body.email, body.username, passwordHash, body.region, body.city);
+  
+    await UserRepository.update(req.userId!, body.email, body.username, body.region, body.city);
     const result: JsonResponse = {
         code: 200,
         message: "User updated successfully.",
@@ -198,18 +195,57 @@ async function remove(req: AuthenticatedRequest, res: Response) {
 
 async function updatePicture(req: AuthenticatedRequest, res: Response) {
   try {
-    const body = req.body as UpdatePictureDto;
-    await UserRepository.updatePicture(req.userId!, body.picture);
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({
+        code: 400,
+        message: "No image received.",
+        data: null
+      });
+    }
+    await UserRepository.updatePicture(req.userId!, file.buffer, file.mimetype);
     const result: JsonResponse = {
       code: 200,
       message: "User updated successfully.",
       data: null
     }
     res.status(200).json(result);
-  } catch (error) {
+  } catch (err: any) {
     const result: JsonResponse = {
       code: 400,
       message: "Error in updating user.",
+      data: null
+    }
+    res.status(400).json(result);
+  }
+}
+
+function toBase64(data: Buffer | Uint8Array | null | undefined) {
+  if (!data) return null;
+  const buffer = Buffer.isBuffer(data) ? data : Buffer.from(data);
+  return buffer.toString("base64");
+}
+
+async function get(req: AuthenticatedRequest, res: Response) {
+  try {
+    const user = await UserRepository.getById(req.userId!);
+
+    const base64 = toBase64(user!.picture);
+    const dataUrl = base64 ? `data:${user!.pictureMime ?? "image/png"};base64,${base64}` : null;
+
+    const result: JsonResponse = {
+      code: 200,
+      message: "User sent successfully.",
+      data: {
+        ...user,
+        picture: dataUrl
+      }
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    const result: JsonResponse = {
+      code: 400,
+      message: "Error in getting user.",
       data: null
     }
     res.status(400).json(result);
@@ -223,5 +259,6 @@ export const UserController = {
   updateIsSuspended,
   login,
   remove,
-  updatePicture
+  updatePicture,
+  get
 }

@@ -1,6 +1,7 @@
 <app-header 
   title="Mi cuenta"
-  buttonIcon="log-out-outline">
+  buttonIcon="log-out-outline"
+  (click)="logout()">
 </app-header>
 <ion-content>
   <ion-split-pane>
@@ -41,26 +42,25 @@
             </ion-avatar>
             <input type="file" #filePicker accept="image/*" hidden (change)="onFileSelected($event)">
           </div>
-          <h3>RUT</h3>
+          <h3>{{user().rut}}</h3>
         </div>
 
         <div class="datos">
           <h4>Mis datos</h4>
-          <app-input label="Nombre de usuario" placeholder="" value="Usuario" [hasButtonEdit]="true"></app-input>
-          <app-input label="Correo electrónico" placeholder="" value="usuario@mail.com" [hasButtonEdit]="true"></app-input>
-          <app-input label="Contraseña" placeholder="" value="password" [hasButtonEdit]="true" type="password"></app-input>
-          <app-input label="Región" placeholder="" value="Región de Valparaíso" [hasButtonEdit]="true"></app-input>
-          <app-input label="Comuna" placeholder="" value="Viña del Mar" [hasButtonEdit]="true"></app-input>
+          <app-input label="Nombre de usuario" placeholder="" [value]="user().username" [hasButtonEdit]="true" (validate)="onUpdateUsername($event)"></app-input>
+          <app-input label="Correo electrónico" placeholder="" [value]="user().email" [hasButtonEdit]="true" (validate)="onUpdateEmail($event)"></app-input>
+          <app-input label="Región" placeholder="" [value]="user().region" [hasButtonEdit]="true" (validate)="onUpdateRegion($event)"></app-input>
+          <app-input label="Comuna" placeholder="" [value]="user().city" [hasButtonEdit]="true" (validate)="onUpdateCity($event)"></app-input>
         </div>
-        <ion-button color="danger">Eliminar cuenta</ion-button>
+        <ion-button color="danger" (click)="confirmDelete()">Eliminar cuenta</ion-button>
 
         <div class="anuncios">
           <h4>Mis anuncios</h4>
-          <p *ngIf="userProduct.length == 0">No anuncio.</p>
+          <p *ngIf="userProducts().length == 0">No anuncio.</p>
           <ion-grid>
             <ion-row>
-              <ion-col *ngFor="let product of userProduct" size="6" size-md="4" size-lg="2" class="ion-no-padding">
-                <app-product-card [title]="product.title" [imageURL]="product.images?.[0]"></app-product-card>
+              <ion-col *ngFor="let product of userProducts()" size="6" size-md="4" size-lg="2" class="ion-no-padding">
+                <app-product-card [title]="product.title" [imageURL]="product.images?.[0]" [id]="product.id"></app-product-card>
               </ion-col>
             </ion-row>
           </ion-grid>

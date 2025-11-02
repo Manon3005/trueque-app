@@ -1,17 +1,13 @@
 
-import {Injectable, inject} from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import {inject} from '@angular/core';
+import { HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { AuthService } from "../services/auth.service";
 
-@Injectable()
-
-export class AuthInterceptor implements HttpInterceptor {
-    private authService = inject(AuthService);
-
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        // Obtener el token del AuthService
-        const token = this.authService.getToken();
+export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+    const authService = inject(AuthService);
+    // Obtener el token del AuthService
+        const token = authService.getToken();
 
         //Si  existe el token
         if (token) {
@@ -22,9 +18,8 @@ export class AuthInterceptor implements HttpInterceptor {
                 }
             });
         // Enviar la peticion clonada
-            return next.handle(cloneReq);
+            return next(cloneReq);
         }
         // Si no hay token, enviar la solicitud original
-        return next.handle(req);
-    }
+        return next(req);
 }

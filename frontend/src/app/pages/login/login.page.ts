@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { NavController, ToastController, LoadingController } from '@ionic/angular';
+import { NavController, LoadingController, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { presentToast } from 'src/app/utils/present-toast';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginPage {
 //inyectar servicios
   private authService = inject(AuthService);
-  private navCtrl = inject(NavController);
   private toastCtrl = inject(ToastController);
+  private navCtrl = inject(NavController);
   private loadingCtrl = inject(LoadingController);
   constructor() {}
 
@@ -51,18 +52,7 @@ export class LoginPage {
       await loading.dismiss();
       //mostrar error
       const message = err.error?.message || 'Error al iniciar sesión. Inténtalo de nuevo.';
-      this.presentToast(message, 'danger');
+      presentToast(this.toastCtrl, message, 'danger');
     }
-  }
-
-  //helper para mostrar toast
-  private async presentToast(message: string, color: 'success' | 'warning' |'danger') {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 3000,
-      color: color,
-      position: 'top'
-    });
-    toast.present();
   }
 }

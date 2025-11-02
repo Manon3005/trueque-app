@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class InputComponent  implements OnInit {
   @Input() label: string = '';
   @Input() placeholder: string = '';
-  @Input() value: string = '';
+  @Input() value?: string;
   @Input() hasButtonEdit: boolean = false;
   @Input() type: string = "text";
   @Output() validate = new EventEmitter<string>();
@@ -30,10 +30,9 @@ export class InputComponent  implements OnInit {
       this.icon = "checkmark"
     } else {
       this.icon = "color-wand";
-      this.validate.emit("Modification validated");
+      this.validate.emit(this.value);
     }
     this.isDisabled = !this.isDisabled;
-    console.log("test");
   }
 
 }

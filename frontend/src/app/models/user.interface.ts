@@ -10,4 +10,5 @@ export interface User {
     region: string;
     is_suspended: boolean;
     password?: string;
+    picture?: string;
 }

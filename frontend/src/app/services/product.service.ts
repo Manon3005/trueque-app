@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Product } from '../models/product';
 import { State } from '../models/state';
 import { environment } from '../../environments/environment';
+import { Response } from '../models/response';
 
 
 
@@ -35,7 +36,10 @@ export class ProductService {
 
   //obtener producto por usuario actual
   getFromUser(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.baseUrl}/user`);
+    return this.http.get<Response>(`${this.baseUrl}/user`)
+    .pipe(
+      map(response => response.data)
+    );
   }
 
   //obtener por id
