@@ -5,10 +5,35 @@ import { CreateProductDto, GetProductRequestDto, UpdateIsDenouncedDto, UpdateIsF
 import { AuthenticatedRequest } from '../models/authenticated-request';
 
 async function create(req: AuthenticatedRequest, res: Response) {
+  
+  console.log('¡PRODUCT CONTROLLER: Entró a la función CREATE!');
+
   try {
     const body = req.body as CreateProductDto;
 
-    const product = await ProductRepository.create(body.title, body.description, body.state, body.location, req.userId!, body.images);
+    let imagesBuffers: Buffer[] = [];
+    if (body.images && Array.isArray(body.images)) {
+      console.log(`¡PRODUCT CONTROLLER: Traduciendo ${body.images.length} imágenes de base64 a Buffer...`);
+      
+      const imagesAsStringArray = (body.images as unknown) as string[];
+
+      imagesBuffers = imagesAsStringArray.map((Base64String: string) => {
+        const pureBase64 = Base64String.split(',')[1] || Base64String;
+        return Buffer.from(pureBase64, 'base64'); 
+      });
+    }
+
+    console.log('¡PRODUCT CONTROLLER: Llamando a ProductRepository.create...');
+    const product = await ProductRepository.create(
+      body.title, 
+      body.description, 
+      body.state, 
+      body.location, 
+      req.userId!, 
+      imagesBuffers
+    );
+    console.log('¡PRODUCT CONTROLLER: Producto creado con éxito!');
+
     const result: JsonResponse = {
         code: 200,
         message: "Product created successfully.",
@@ -16,6 +41,9 @@ async function create(req: AuthenticatedRequest, res: Response) {
     }
     res.status(200).json(result);
   } catch (error) {
+
+    console.error("Fallo en la creacion de producto!!", error);
+
     const result: JsonResponse = {
       code: 400,
       message: "Error in creating product.",
@@ -37,6 +65,7 @@ async function update(req: Request, res: Response) {
     }
     res.status(200).json(result);
   } catch (error) {
+    console.error("Fallo en la creacion de producto!!", error);
     const result: JsonResponse = {
       code: 400,
       message: "Error in updating product.",

@@ -18,7 +18,7 @@ export class SearchPage implements OnInit {
   ngOnInit() {
     this.productService.getAll().subscribe((products: any) => {
       console.log(products);
-      this.productList = products.map((product: any) => { return {
+      this.productList = products.data.items.map((product: any) => { return {
         id: product.id,
         title: (product.title.length > 25 ? product.title.slice(0,25) : product.title),
         images: [product.image],

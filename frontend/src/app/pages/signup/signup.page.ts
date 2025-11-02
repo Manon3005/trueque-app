@@ -47,7 +47,7 @@ export class SignupPage implements OnInit {
      password: form.value.password,
      username: form.value.username,
      region: form.value.region,
-     city: form.value.city,
+     city: form.value.comuna,
      role: "USER" as any
     };
     //uso try catch para manejar errores

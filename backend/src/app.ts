@@ -5,7 +5,8 @@ import productRoutes from './routes/product.route';
 import messageRoutes from './routes/message.route';
 
 const app = express();
-app.use(express.json());
+app.use(express.json({limit: '20mb'}));
+app.use(express.urlencoded({limit: '20mb', extended: true}));
 
 const corsOptions: CorsOptions = {
   origin: process.env.CLIENT_URL,

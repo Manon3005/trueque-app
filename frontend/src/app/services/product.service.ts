@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 // Envio de paquetes al backend
 export interface ProductCreationPayload {
   title: string;
-  descripcion: string;
+  description: string;
   state: State;
   location: string;
   images: string[];
