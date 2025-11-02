@@ -1,8 +1,26 @@
 <ion-card (click)="navigateToProductPage()">
+
   <ion-card-header>
-    <img [src]="imageURL" class="card-image" />
+    <img *ngIf="imageURL" [src]="imageURL" class="card-image" />
+    <div *ngIf="!imageURL" class="placeholder-image">
+      <ion-icon name="image-outline"></ion-icon>
+    </div>
+
+    <ion-card-title>{{ title }}</ion-card-title>
   </ion-card-header>
+
   <ion-card-content>
-      {{ title }}
+
+    <ion-item lines="none" class="info-item">
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      <ion-label>{{ location }}</ion-label>
+    </ion-item>
+
+    <ion-item lines="none" class="info-item">
+      <ion-icon name="time-outline" slot="start"></ion-icon>
+      <ion-label>{{ antiquity }}</ion-label>
+    </ion-item>
+
   </ion-card-content>
+
 </ion-card>

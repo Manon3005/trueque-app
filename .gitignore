@@ -20,6 +20,11 @@ log.txt
 # Ionic
 /.ionic
 /www
+# Ionic
+www/
+node_modules/
+*.tmp
+*.log
 /platforms
 /plugins
 
