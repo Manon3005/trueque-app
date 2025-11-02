@@ -169,14 +169,19 @@ async function updateIsFavorite(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-async function get(req: Request, res: Response) {
+async function get(req: AuthenticatedRequest, res: Response) {
   try {
     const product = await ProductRepository.get(parseInt(req.params.id));
+
+    const isFavorite = (await ProductRepository.isFavorite(parseInt(req.params.id), req.userId!) == null) ? false: true;
 
     const result: JsonResponse = {
       code: 200,
       message: "Product sent successfully.",
-      data: product
+      data: {
+        ...product,
+        isFavorite: isFavorite
+      }
     }
     res.status(200).json(result);
   } catch (error) {
@@ -208,6 +213,26 @@ async function remove(req: Request, res: Response) {
   }
 }
 
+async function getUserFavorite(req: AuthenticatedRequest, res: Response) {
+  try {
+    const products = await ProductRepository.getFavorite(req.userId!);
+
+    const result: JsonResponse = {
+      code: 200,
+      message: "Products sent successfully.",
+      data: products
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    const result: JsonResponse = {
+      code: 400,
+      message: "Error in getting products.",
+      data: null
+    }
+    res.status(400).json(result);
+  }
+}
+
 export const ProductController = {
   create,
   update,
@@ -216,5 +241,6 @@ export const ProductController = {
   updateIsFavorite,
   get,
   remove,
-  getAllFromUser
+  getAllFromUser,
+  getUserFavorite
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { userProductsResolver, userResolver } from './resolvers/user.resolver';
+import { favoriteProductResolver } from './resolvers/product.resolver';
 
 export const routes: Routes = [
   {
@@ -19,7 +20,10 @@ export const routes: Routes = [
       },
       {
         path: 'favorites',
-        loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
+        loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule),
+        resolve: {
+          products: favoriteProductResolver,
+        }
       },
       {
         path: 'new',

@@ -1,7 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { Product } from '../../models/product';
 import { State } from '../../models/state';
 import { ProductService } from '../../services/product.service';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-favorites',
@@ -10,24 +13,15 @@ import { ProductService } from '../../services/product.service';
   standalone: false,
 })
 export class FavoritesPage implements OnInit {
-  productList: Product[] = [];
-  visibleProductList: Product[] = [];
-  private productService = inject(ProductService);
+  private route = inject(ActivatedRoute);
+  private data = toSignal(this.route.data);
+  private navCtrl = inject (NavController);
+
+  products = computed(() => this.data()?.['products'] as Product[] ?? []);
+
   constructor() { }
 
   ngOnInit() {
-    this.productService.getAll().subscribe((products: any) => {
-      console.log(products);
-      this.productList = products.slice(10,13).map((product: any) => { return {
-        id: product.id,
-        title: (product.title.length > 25 ? product.title.slice(0,25) : product.title),
-        images: [product.image],
-        descripcion: product.description,
-        state: State.NEW,
-        location: "Unkown"
-      }})
-      this.visibleProductList = this.productList;
-    })
   }
 
 }

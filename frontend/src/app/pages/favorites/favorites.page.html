@@ -31,10 +31,11 @@
     </ion-menu>
     <ion-content>
       <div>
+        <p *ngIf="products().length == 0">No tienes ningún producto marcado como favorito por el momento. Para añadir uno, haz clic en el icono del corazón en el anuncio del producto.</p>
         <ion-grid>
           <ion-row>
-            <ion-col *ngFor="let product of visibleProductList" size="6" size-md="4" size-lg="2" class="ion-no-padding">
-              <app-product-card [title]="product.title" [imageURL]="product.images?.[0]"></app-product-card>
+            <ion-col *ngFor="let product of products()" size="6" size-md="4" size-lg="2" class="ion-no-padding">
+              <app-product-card [title]="product.title" [imageURL]="product.images?.[0]" [id]="product.id"></app-product-card>
             </ion-col>
           </ion-row>
         </ion-grid>

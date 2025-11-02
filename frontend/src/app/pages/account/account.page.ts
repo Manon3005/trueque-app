@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { User } from 'src/app/models/user.interface';
-import { ProductService } from 'src/app/services/product.service';
 import { UserService } from 'src/app/services/user.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { presentToast } from 'src/app/utils/present-toast';
@@ -31,8 +30,7 @@ export class AccountPage implements OnInit, OnDestroy {
   @ViewChild('filePicker') filePicker!: ElementRef<HTMLInputElement>;
   avatarUrl: string = 'assets/avatar.svg';
 
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit() {
     if (this.user().picture != undefined) {

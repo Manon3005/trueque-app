@@ -32,7 +32,8 @@ async function get(id: number): Promise<Product | null> {
           username: true,
           is_suspended: true
         },
-      }
+      },
+      images: true
     }
   });
 }
@@ -149,6 +150,31 @@ async function countRequest(request: string): Promise<number> {
   });
 }
 
+async function getFavorite(userId: number) {
+  return await prisma.product.findMany({
+    where: {
+      favorites: {
+        some: { user_id: userId }
+      }
+    },
+    include: {
+      images: true,
+      user: true
+    },
+  });
+}
+
+async function isFavorite(productId: number, userId: number) {
+  return await prisma.favorite.findUnique({
+    where: {
+      user_id_product_id: {
+        user_id: userId,
+        product_id: productId
+      }
+    },
+  });
+}
+
 
 export const ProductRepository = {
     getAll,
@@ -161,5 +187,7 @@ export const ProductRepository = {
     update,
     getFromUser,
     count,
-    countRequest
+    countRequest,
+    getFavorite,
+    isFavorite
 }

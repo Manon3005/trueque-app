@@ -9,4 +9,5 @@ export interface Product {
     location: string;
     created_at: Date;
     userId: number;
+    isFavorite?: boolean;
 }

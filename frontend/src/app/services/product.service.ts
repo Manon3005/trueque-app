@@ -42,6 +42,14 @@ export class ProductService {
     );
   }
 
+  //obtener producto favorito por usuario actual
+  getUserFavorite(): Observable<Product[]> {
+    return this.http.get<Response>(`${this.baseUrl}/favorite`)
+    .pipe(
+      map(response => response.data)
+    );
+  }
+
   //obtener por id
   getById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.baseUrl}/${id}`);
