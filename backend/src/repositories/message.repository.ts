@@ -40,7 +40,10 @@ async function updateConversationWasSeen(userConnected: number, otherUser: numbe
     })
 }
 
-async function getFromUser(userId: number): Promise<Message[] | null> {
+async function getFromUser(userId: number): Promise<(Message & {
+        sender: { id: number; username: string; is_suspended: boolean };
+        receiver: { id: number; username: string; is_suspended: boolean };
+    })[]> {
     return await prisma.message.findMany({
         where: {
             OR: [

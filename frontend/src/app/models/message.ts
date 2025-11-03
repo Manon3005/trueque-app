@@ -16,3 +16,22 @@ export interface Message {
   body: string;
   timestamp: string; // ISO string
 }
+
+export interface MessageAPI {
+  id: number;
+  content: string;
+  sender_user_id: number;
+  receiver_user_id: number;
+  sent_at: Date;
+  was_seen: boolean;
+  sender?: {
+    id: number;
+    username: string;
+    is_suspended: boolean;
+  };
+  receiver?: {
+    id: number;
+    username: string;
+    is_suspended: boolean;
+  };
+}
