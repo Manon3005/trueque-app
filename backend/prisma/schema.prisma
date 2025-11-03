@@ -33,6 +33,7 @@ model User {
   region       String
   is_suspended Boolean @default(false)
   picture      Bytes?
+  pictureMime  String?
 
   // Relations
   products         Product[]
@@ -62,6 +63,7 @@ model Image {
   id         Int   @id @default(autoincrement())
   product_id Int
   content    Bytes
+  mime       String
 
   // Relations
   product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)

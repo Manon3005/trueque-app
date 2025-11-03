@@ -7,5 +7,8 @@ export interface Product {
     images: string[];
     state: string;
     location: string;
-    username: string;
+    created_at: Date;
+    user?: string;
+    isFavorite?: boolean;
+    user_id?: number;
 }

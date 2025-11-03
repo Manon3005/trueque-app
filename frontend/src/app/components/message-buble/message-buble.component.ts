@@ -9,13 +9,13 @@ import { Message } from '../../models/message';
 })
 export class MessageBubleComponent  implements OnInit {
   @Input() message!: Message;
-  @Input() currentUserId: string = 'me';
+  @Input() currentUserId!: number;
 
   constructor() { }
 
   ngOnInit() {}
 
   isMine() {
-    return this.message && this.message.fromUserId === this.currentUserId;
+    return this.message && this.message.fromUserId == this.currentUserId;
   }
 }

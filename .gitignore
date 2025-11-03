@@ -20,6 +20,11 @@ log.txt
 # Ionic
 /.ionic
 /www
+# Ionic
+www/
+node_modules/
+*.tmp
+*.log
 /platforms
 /plugins
 
@@ -71,6 +76,7 @@ Thumbs.db
 
 # Prisma
 */src/generated/prisma
+*/src/database/trueque.db
 
 
 # Env

@@ -1,6 +1,90 @@
-<app-header 
-  title="Nuevo Producto"
-  buttonIcon="checkmark-circle-outline">
+<app-header class="ion-no-border"
+  title="Nuevo Producto">
 </app-header>
-<ion-content></ion-content>
 
+<ion-content>
+  <ion-split-pane>
+
+    <ion-menu side="start">
+      <ion-content>
+        <ion-list>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerLink="/search" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="search-outline"></ion-icon>
+              <ion-label>Buscar productos</ion-label>
+            </ion-item>
+            <ion-item routerLink="/favorites" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="heart-outline"></ion-icon>
+              <ion-label>Ver tus favoritos</ion-label>
+            </ion-item>
+            <ion-item routerLink="/new-product" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+              <ion-label>Crear nuevo producto</ion-label>
+            </ion-item>
+            <ion-item routerLink="/messages" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
+              <ion-label>Ver tus mensajes</ion-label>
+            </ion-item>
+            <ion-item routerLink="/account" routerDirection="root" routerLinkActive="selected">
+              <ion-icon slot="start" name="person-outline"></ion-icon>
+              <ion-label>Ver tu cuenta</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    
+<ion-content class="ion-padding">
+  <div class="img-row">
+    
+    <div class="thumb" *ngFor="let src of imagePreviews; let i = index">
+      <img [src]="src" alt="Previsualización">
+      <ion-button fill="clear" shape="round" class="remove-btn" (click)="removePreview(i)">
+        <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="thumb add-thumb" *ngIf="imagePreviews.length < maxImages">
+      <label class="file-label">
+        <input type="file" accept="image/*" multiple (change)="onFileSelected($event)">
+        <ion-icon name="folder-outline"></ion-icon>
+      </label>
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    
+    <ion-item fill="outline" class="form-item">
+      <ion-label position="stacked">Título</ion-label>
+      <ion-input formControlName="title"></ion-input>
+    </ion-item>
+
+    <ion-item fill="outline" class="form-item">
+      <ion-label position="stacked">Ubicación</ion-label>
+      <ion-input formControlName="location"></ion-input>
+      <ion-icon name="location-outline" slot="end"></ion-icon>
+    </ion-item>
+
+    <ion-item fill="outline" class="form-item">
+      <ion-label position="stacked">Estado</ion-label>
+      <ion-select formControlName="state">
+        <ion-select-option [value]="0">Nuevo</ion-select-option>
+        <ion-select-option [value]="1">Como Nuevo</ion-select-option>
+        <ion-select-option [value]="2">Buen Estado</ion-select-option>
+        <ion-select-option [value]="3">Aceptable</ion-select-option>
+        <ion-select-option [value]="4">Desgastado</ion-select-option>
+        <ion-select-option [value]="5">Necesita Reparación</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item fill="outline" class="form-item">
+      <ion-label position="stacked">Descripción</ion-label>
+      <ion-textarea formControlName="description" rows="5"></ion-textarea>
+      <ion-icon name="document-text-outline" slot="end" class="align-icon-top"></ion-icon>
+    </ion-item>
+
+    <div class="actions">
+      <ion-button type="submit" [disabled]="form.invalid">Publicar</ion-button>
+    </div>
+  </form>
+</ion-content>

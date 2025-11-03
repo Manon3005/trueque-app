@@ -14,7 +14,7 @@
     (swiperprogress)="onProgress($any($event))"
     (swiperslidechange)="onSlideChange()"
   >
-    <swiper-slide *ngFor="let image of product.images">
+    <swiper-slide *ngFor="let image of product().images">
       <img [src]="image">
     </swiper-slide>
   </swiper-container>
@@ -23,36 +23,35 @@
       <ion-button fill="clear" shape="round" slot="end" (click)="setFavorite()">
         <ion-icon slot="icon-only" [name]="icon"></ion-icon>
       </ion-button>
-      <ion-label class="product-title">Título</ion-label>
+      <ion-label class="product-title">{{product().title}}</ion-label>
     </ion-item>
     <p class="product-description">
-      {{product.description}}
+      {{product().description}}
     </p>
 
     <ion-item lines="none">
       <ion-icon name="location-outline" slot="start"></ion-icon>
       <ion-label>
-        <strong>{{product.location}}</strong>
+        <strong>{{product().location}}</strong>
       </ion-label>
     </ion-item>
 
     <ion-item lines="none">
       <ion-icon name="star-outline" slot="start"></ion-icon>
       <ion-label>
-        <strong>{{product.state}}</strong>
+        <strong>{{product().state}}</strong>
       </ion-label>
     </ion-item>
 
-  <!-- Section Donateur -->
     <ion-card class="donor-card">
       <ion-item lines="none">
         <ion-avatar slot="start">
           <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Donador" />
         </ion-avatar>
         <ion-label>
-          <strong>{{product.username}}</strong>
+          <strong>{{product().user}}</strong>
         </ion-label>
-        <ion-button slot="end" fill="solid">
+        <ion-button slot="end" fill="solid" (click)="openDiscussionConUser()">
           Contactar
         </ion-button>
       </ion-item>

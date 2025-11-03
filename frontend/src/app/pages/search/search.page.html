@@ -37,7 +37,13 @@
         <ion-grid>
           <ion-row>
             <ion-col *ngFor="let product of visibleProductList" size="6" size-md="4" size-lg="2" class="ion-no-padding">
-              <app-product-card [title]="product.title" [imageURL]="product.images[0]"></app-product-card>
+              <app-product-card 
+              [title]="product.title" 
+              [imageURL]="product.firstImage"
+              [location]="product.location"
+              [antiquity]="product.antiquity"
+              [id]="product.id">
+            </app-product-card>
             </ion-col>
           </ion-row>
         </ion-grid>

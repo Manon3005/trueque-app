@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Messages } from '../../../services/message.service';
-import { Thread, Message } from '../../../models/message';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from '../../../services/message.service';
+import { Message } from '../../../models/message';
+import { Observable, Subscription, map } from 'rxjs';
 import { IonContent } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-message-thread',
@@ -12,26 +13,39 @@ import { IonContent } from '@ionic/angular';
   standalone: false
 })
 export class MessageThreadPage implements OnInit, OnDestroy {
-  threadId!: string;
-  thread?: Thread | undefined;
+  threadId!: number;
+  threadTitle: string = 'Chat';
   messages$!: Observable<Message[]>;
-  currentUserId: string = 'me';
+  currentUserId!: number;
   private sub = new Subscription();
 
   @ViewChild(IonContent) content!: IonContent;
 
-  constructor(private route: ActivatedRoute, private messagesService: Messages) { }
+  private route  = inject(ActivatedRoute);
+  private router = inject(Router);
+  private messagesService = inject(MessageService);
+  private authService = inject(AuthService);
+
+  constructor() { 
+    if (history.state && history.state['threadTitle']) {
+      this.threadTitle = history.state['threadTitle'];
+    } else{
+      this.threadTitle = 'Chat';
+    }
+    this.currentUserId = this.authService.getCurrentUserId()!;
+  }
 
   ngOnInit() {
     this.sub.add(
       this.route.paramMap.subscribe(p => {
         const id = p.get('id');
         if (id) {
-          this.threadId = id;
-          this.messages$ = this.messagesService.getMessagesForThread(id);
-          // subscribe once to get thread meta
-          this.messagesService.getThreadById(id).subscribe(t => this.thread = t);
-          // scroll when messages change
+          this.threadId = +id;
+
+          this.messages$ = this.messagesService.getConversationWithUser(this.threadId).pipe(
+            map((res: any) => res.data)
+          );
+
           this.sub.add(
             this.messages$.subscribe(() => {
               setTimeout(() => this.content?.scrollToBottom(200), 250);
@@ -44,7 +58,14 @@ export class MessageThreadPage implements OnInit, OnDestroy {
 
   onSend(text: string) {
     if (!this.threadId) return;
-    this.messagesService.sendMessage(this.threadId, this.currentUserId, 'Tú', text);
+    this.messagesService.sendMessage(this.threadId, text).subscribe({
+      next: () => {
+        this.messages$ = this.messagesService.getConversationWithUser(this.threadId).pipe(
+          map((res: any) => res.data)
+        );
+      },
+        error: (err) => console.error('Error al enviar el mensaje!', err)
+      });
   }
 
   trackById(i:number, m:Message){ return m.id; }

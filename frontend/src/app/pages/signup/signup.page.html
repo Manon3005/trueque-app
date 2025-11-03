@@ -7,7 +7,7 @@
       <ion-row class="ion-justify-content-center ion-align-items-center">
         <div class="sign-up-header">
           <p class="body">Ya tienes una cuenta?</p>
-          <a class="body" href="./login">Inicia sesión!</a>
+          <a class="body" routerLink="/login">Inicia sesión!</a>
         </div>
       </ion-row>
       <ion-row class="ion-justify-content-center ion-align-items-center">
@@ -28,8 +28,7 @@
                 errorText="Introduzca una dirección de correo electrónico válida"
                 name="email"
                 ngModel
-                required
-                email>
+                required>
               </ion-input>
               <ion-input
                 label="Nombre de usuario"

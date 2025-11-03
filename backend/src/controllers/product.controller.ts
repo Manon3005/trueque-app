@@ -3,12 +3,29 @@ import { JsonResponse } from '../models/json-response';
 import { ProductRepository } from '../repositories/product.repository';
 import { CreateProductDto, GetProductRequestDto, UpdateIsDenouncedDto, UpdateIsFavoriteDto, UpdateProductDto } from '../dto/product.dto';
 import { AuthenticatedRequest } from '../models/authenticated-request';
+import { ImageBuffer } from '../models/image-buffer';
+import { toBase64 } from '../utils/image';
 
 async function create(req: AuthenticatedRequest, res: Response) {
   try {
     const body = req.body as CreateProductDto;
+    const files = req.files as Express.Multer.File[];
 
-    const product = await ProductRepository.create(body.title, body.description, body.state, body.location, req.userId!, body.images);
+    let images: ImageBuffer[] = [];
+    files.forEach(file => images.push({
+      buffer: file.buffer,
+      mimeType: file.mimetype
+    }));
+
+    const product = await ProductRepository.create(
+      body.title, 
+      body.description, 
+      body.state, 
+      body.location, 
+      req.userId!, 
+      images
+    );
+
     const result: JsonResponse = {
         code: 200,
         message: "Product created successfully.",
@@ -16,6 +33,9 @@ async function create(req: AuthenticatedRequest, res: Response) {
     }
     res.status(200).json(result);
   } catch (error) {
+
+    console.error("Fallo en la creacion de producto!!", error);
+
     const result: JsonResponse = {
       code: 400,
       message: "Error in creating product.",
@@ -28,8 +48,15 @@ async function create(req: AuthenticatedRequest, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const body = req.body as UpdateProductDto;
+    const files = req.files as Express.Multer.File[];
 
-    const product = await ProductRepository.update(parseInt(req.params.id), body.title, body.description, body.state, body.location, body.images);
+    let images: ImageBuffer[] = [];
+    files.forEach(file => images.push({
+      buffer: file.buffer,
+      mimeType: file.mimetype
+    }));
+
+    const product = await ProductRepository.update(parseInt(req.params.id), body.title, body.description, body.state, body.location, images);
     const result: JsonResponse = {
         code: 200,
         message: "Product updated successfully.",
@@ -37,6 +64,7 @@ async function update(req: Request, res: Response) {
     }
     res.status(200).json(result);
   } catch (error) {
+    console.error("Fallo en la creacion de producto!!", error);
     const result: JsonResponse = {
       code: 400,
       message: "Error in updating product.",
@@ -60,13 +88,36 @@ async function getAll(req: Request, res: Response) {
       products = await ProductRepository.getAll(page, pageSize);
       amount = await ProductRepository.count();
     }
-    
-    const result: JsonResponse = {
-      code: 200,
-      message: "Products sent successfully.",
-      data: {
-        products: products,
-        totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
+
+    let result: JsonResponse;
+    if (products != null) {
+      const formattedProducts = products.map(product => {
+        const image = product.images[0];
+        const base64 = toBase64(image.content);
+        const dataUrl = base64 ? `data:${image.mime ?? "image/png"};base64,${base64}` : null;
+
+        return {
+          ...product,
+          images: [dataUrl]
+        };
+      });
+
+      result = {
+        code: 200,
+        message: "Products sent successfully.",
+        data: {
+          products: formattedProducts,
+          totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
+        }
+      }
+    } else {
+      result = {
+        code: 200,
+        message: "No product to sent.",
+        data: {
+          products: [],
+          totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
+        }
       }
     }
     res.status(200).json(result);
@@ -84,10 +135,30 @@ async function getAllFromUser(req: AuthenticatedRequest, res: Response) {
   try {
     const products = await ProductRepository.getFromUser(req.userId!);
 
-    const result: JsonResponse = {
-      code: 200,
-      message: "Products sent successfully.",
-      data: products
+    let result: JsonResponse;
+    if (products != null) {
+      const formattedProducts = products.map(product => {
+        const image = product.images[0];
+        const base64 = toBase64(image.content);
+        const dataUrl = base64 ? `data:${image.mime ?? "image/png"};base64,${base64}` : null;
+
+        return {
+          ...product,
+          images: [dataUrl]
+        };
+      });
+
+      result = {
+        code: 200,
+        message: "Products sent successfully.",
+        data: formattedProducts,
+      }
+    } else {
+      result = {
+        code: 200,
+        message: "No product to sent.",
+        data: [],
+      }
     }
     res.status(200).json(result);
   } catch (error) {
@@ -140,14 +211,27 @@ async function updateIsFavorite(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-async function get(req: Request, res: Response) {
+async function get(req: AuthenticatedRequest, res: Response) {
   try {
     const product = await ProductRepository.get(parseInt(req.params.id));
+
+    const images = product!.images.map((image) => {
+      const base64 = toBase64(image.content);
+      const dataUrl = base64 ? `data:${image.mime ?? "image/png"};base64,${base64}` : null;
+      return dataUrl;
+    })
+
+    const isFavorite = (await ProductRepository.isFavorite(parseInt(req.params.id), req.userId!) == null) ? false: true;
 
     const result: JsonResponse = {
       code: 200,
       message: "Product sent successfully.",
-      data: product
+      data: {
+        ...product,
+        isFavorite: isFavorite,
+        images: images,
+        user: product?.user.username
+      }
     }
     res.status(200).json(result);
   } catch (error) {
@@ -179,6 +263,46 @@ async function remove(req: Request, res: Response) {
   }
 }
 
+async function getUserFavorite(req: AuthenticatedRequest, res: Response) {
+  try {
+    const products = await ProductRepository.getFavorite(req.userId!);
+
+    let result: JsonResponse;
+    if (products != null) {
+      const formattedProducts = products.map(product => {
+        const image = product.images[0];
+        const base64 = toBase64(image.content);
+        const dataUrl = base64 ? `data:${image.mime ?? "image/png"};base64,${base64}` : null;
+
+        return {
+          ...product,
+          images: [dataUrl]
+        };
+      });
+
+      result = {
+        code: 200,
+        message: "Products sent successfully.",
+        data: formattedProducts,
+      }
+    } else {
+      result = {
+        code: 200,
+        message: "No product to sent.",
+        data: [],
+      }
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    const result: JsonResponse = {
+      code: 400,
+      message: "Error in getting products.",
+      data: null
+    }
+    res.status(400).json(result);
+  }
+}
+
 export const ProductController = {
   create,
   update,
@@ -187,5 +311,6 @@ export const ProductController = {
   updateIsFavorite,
   get,
   remove,
-  getAllFromUser
+  getAllFromUser,
+  getUserFavorite
 }
