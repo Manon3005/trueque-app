@@ -3,36 +3,28 @@ import { JsonResponse } from '../models/json-response';
 import { ProductRepository } from '../repositories/product.repository';
 import { CreateProductDto, GetProductRequestDto, UpdateIsDenouncedDto, UpdateIsFavoriteDto, UpdateProductDto } from '../dto/product.dto';
 import { AuthenticatedRequest } from '../models/authenticated-request';
+import { ImageBuffer } from '../models/image-buffer';
+import { toBase64 } from '../utils/image';
 
 async function create(req: AuthenticatedRequest, res: Response) {
-  
-  console.log('¡PRODUCT CONTROLLER: Entró a la función CREATE!');
-
   try {
     const body = req.body as CreateProductDto;
+    const files = req.files as Express.Multer.File[];
 
-    let imagesBuffers: Buffer[] = [];
-    if (body.images && Array.isArray(body.images)) {
-      console.log(`¡PRODUCT CONTROLLER: Traduciendo ${body.images.length} imágenes de base64 a Buffer...`);
-      
-      const imagesAsStringArray = (body.images as unknown) as string[];
+    let images: ImageBuffer[] = [];
+    files.forEach(file => images.push({
+      buffer: file.buffer,
+      mimeType: file.mimetype
+    }));
 
-      imagesBuffers = imagesAsStringArray.map((Base64String: string) => {
-        const pureBase64 = Base64String.split(',')[1] || Base64String;
-        return Buffer.from(pureBase64, 'base64'); 
-      });
-    }
-
-    console.log('¡PRODUCT CONTROLLER: Llamando a ProductRepository.create...');
     const product = await ProductRepository.create(
       body.title, 
       body.description, 
       body.state, 
       body.location, 
       req.userId!, 
-      imagesBuffers
+      images
     );
-    console.log('¡PRODUCT CONTROLLER: Producto creado con éxito!');
 
     const result: JsonResponse = {
         code: 200,
@@ -56,8 +48,15 @@ async function create(req: AuthenticatedRequest, res: Response) {
 async function update(req: Request, res: Response) {
   try {
     const body = req.body as UpdateProductDto;
+    const files = req.files as Express.Multer.File[];
 
-    const product = await ProductRepository.update(parseInt(req.params.id), body.title, body.description, body.state, body.location, body.images);
+    let images: ImageBuffer[] = [];
+    files.forEach(file => images.push({
+      buffer: file.buffer,
+      mimeType: file.mimetype
+    }));
+
+    const product = await ProductRepository.update(parseInt(req.params.id), body.title, body.description, body.state, body.location, images);
     const result: JsonResponse = {
         code: 200,
         message: "Product updated successfully.",
@@ -89,13 +88,36 @@ async function getAll(req: Request, res: Response) {
       products = await ProductRepository.getAll(page, pageSize);
       amount = await ProductRepository.count();
     }
-    
-    const result: JsonResponse = {
-      code: 200,
-      message: "Products sent successfully.",
-      data: {
-        products: products,
-        totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
+
+    let result: JsonResponse;
+    if (products != null) {
+      const formattedProducts = products.map(product => {
+        const image = product.images[0];
+        const base64 = toBase64(image.content);
+        const dataUrl = base64 ? `data:${image.mime ?? "image/png"};base64,${base64}` : null;
+
+        return {
+          ...product,
+          images: [dataUrl]
+        };
+      });
+
+      result = {
+        code: 200,
+        message: "Products sent successfully.",
+        data: {
+          products: formattedProducts,
+          totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
+        }
+      }
+    } else {
+      result = {
+        code: 200,
+        message: "No product to sent.",
+        data: {
+          products: [],
+          totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
+        }
       }
     }
     res.status(200).json(result);
@@ -113,10 +135,30 @@ async function getAllFromUser(req: AuthenticatedRequest, res: Response) {
   try {
     const products = await ProductRepository.getFromUser(req.userId!);
 
-    const result: JsonResponse = {
-      code: 200,
-      message: "Products sent successfully.",
-      data: products
+    let result: JsonResponse;
+    if (products != null) {
+      const formattedProducts = products.map(product => {
+        const image = product.images[0];
+        const base64 = toBase64(image.content);
+        const dataUrl = base64 ? `data:${image.mime ?? "image/png"};base64,${base64}` : null;
+
+        return {
+          ...product,
+          images: [dataUrl]
+        };
+      });
+
+      result = {
+        code: 200,
+        message: "Products sent successfully.",
+        data: formattedProducts,
+      }
+    } else {
+      result = {
+        code: 200,
+        message: "No product to sent.",
+        data: [],
+      }
     }
     res.status(200).json(result);
   } catch (error) {
@@ -173,6 +215,12 @@ async function get(req: AuthenticatedRequest, res: Response) {
   try {
     const product = await ProductRepository.get(parseInt(req.params.id));
 
+    const images = product!.images.map((image) => {
+      const base64 = toBase64(image.content);
+      const dataUrl = base64 ? `data:${image.mime ?? "image/png"};base64,${base64}` : null;
+      return dataUrl;
+    })
+
     const isFavorite = (await ProductRepository.isFavorite(parseInt(req.params.id), req.userId!) == null) ? false: true;
 
     const result: JsonResponse = {
@@ -180,7 +228,9 @@ async function get(req: AuthenticatedRequest, res: Response) {
       message: "Product sent successfully.",
       data: {
         ...product,
-        isFavorite: isFavorite
+        isFavorite: isFavorite,
+        images: images,
+        user: product?.user.username
       }
     }
     res.status(200).json(result);
@@ -217,10 +267,30 @@ async function getUserFavorite(req: AuthenticatedRequest, res: Response) {
   try {
     const products = await ProductRepository.getFavorite(req.userId!);
 
-    const result: JsonResponse = {
-      code: 200,
-      message: "Products sent successfully.",
-      data: products
+    let result: JsonResponse;
+    if (products != null) {
+      const formattedProducts = products.map(product => {
+        const image = product.images[0];
+        const base64 = toBase64(image.content);
+        const dataUrl = base64 ? `data:${image.mime ?? "image/png"};base64,${base64}` : null;
+
+        return {
+          ...product,
+          images: [dataUrl]
+        };
+      });
+
+      result = {
+        code: 200,
+        message: "Products sent successfully.",
+        data: formattedProducts,
+      }
+    } else {
+      result = {
+        code: 200,
+        message: "No product to sent.",
+        data: [],
+      }
     }
     res.status(200).json(result);
   } catch (error) {

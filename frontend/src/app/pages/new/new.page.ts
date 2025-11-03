@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import { ProductService, ProductCreationPayload } from 'src/app/services/product.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { State, StateLabel } from '../../models/state';
+import { presentToast } from 'src/app/utils/present-toast';
 
 @Component({
   selector: 'app-new',
@@ -73,7 +74,12 @@ export class NewPage {
   async submit() {
     //validar formulario
     if (this.form.invalid) {
-      this.presentToast('Por favor, complete todos los campos correctamente.', 'warning');
+      presentToast(this.toastCtrl, 'Por favor, complete todos los campos correctamente', 'warning');
+      return;
+    }
+
+    if (this.imageFiles.length == 0) {
+      presentToast(this.toastCtrl, 'Por favor, agregue al menos una imagen', 'warning');
       return;
     }
     //mostrar cargando
@@ -81,10 +87,6 @@ export class NewPage {
     await loading.present();
 
     try {
-      //convertir imagenes a base64
-      const imageBase64 = await Promise.all(
-        this.imageFiles.map(file => this.toBase64(file))
-      );
       const stateAsNumber = this.form.value.state;
       const stateAsString = State[stateAsNumber];
       //crear payload
@@ -93,43 +95,18 @@ export class NewPage {
         description: this.form.value.description,
         state: stateAsString as any,
         location: this.form.value.location,
-        images: imageBase64
       };
       //llamar al mensajero de servicio
-      const newProduct = await firstValueFrom(this.productService.createProduct(payload));
+      const newProduct = await firstValueFrom(this.productService.createProduct(payload, this.imageFiles));
       //exito
       await loading.dismiss();
-      await this.presentToast('Producto publicado con éxito.', 'success');
+      await presentToast(this.toastCtrl, 'Producto publicado con éxito.', 'success');
       //navegar a account para ver productos
-      this.navCtrl.navigateRoot('/account');
+      this.navCtrl.navigateRoot(`/product/${newProduct.id}`);
     }
     catch (error) {
       //error
-      this.presentToast('Error al publicar el producto. Inténtalo de nuevo.', 'danger');
+      presentToast(this.toastCtrl, 'Error al publicar el producto. Inténtalo de nuevo.', 'danger');
     }
-  }
-  //helpers
-  // convertir archivo a base64
-  private toBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        const base64 = result.split(',')[1]; // Obtener solo la parte base64
-        resolve(base64);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-  // mostrar toast
-  private async presentToast(message: string, color: 'success' | 'warning' | 'danger') {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2500,
-      color: color,
-      position: 'top'
-  });
-    await toast.present();
   }
 }

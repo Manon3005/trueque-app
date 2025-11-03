@@ -8,7 +8,7 @@ export interface Product {
     state: string;
     location: string;
     created_at: Date;
-    username: string;
+    user?: string;
     isFavorite?: boolean;
-    
+    user_id?: number;
 }

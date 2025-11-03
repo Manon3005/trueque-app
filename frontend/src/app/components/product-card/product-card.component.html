@@ -11,12 +11,12 @@
 
   <ion-card-content>
 
-    <ion-item lines="none" class="info-item">
+    <ion-item *ngIf="location != ''" lines="none" class="info-item">
       <ion-icon name="location-outline" slot="start"></ion-icon>
       <ion-label>{{ location }}</ion-label>
     </ion-item>
 
-    <ion-item lines="none" class="info-item">
+    <ion-item *ngIf="antiquity != ''" lines="none" class="info-item">
       <ion-icon name="time-outline" slot="start"></ion-icon>
       <ion-label>{{ antiquity }}</ion-label>
     </ion-item>

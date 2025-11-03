@@ -63,6 +63,7 @@ model Image {
   id         Int   @id @default(autoincrement())
   product_id Int
   content    Bytes
+  mime       String
 
   // Relations
   product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)

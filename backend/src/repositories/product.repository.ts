@@ -1,14 +1,18 @@
 import { prisma } from "../config/db";
-import { Denounced, Favorite, Product, State, Prisma } from "../generated/prisma";
+import { Denounced, Favorite, Product, State, Prisma, Image, User } from "../generated/prisma";
+import { ImageBuffer } from "../models/image-buffer";
 
-async function getAll(page: number, pageSize: number): Promise<Product[] | null> {
+async function getAll(page: number, pageSize: number): Promise<(Product & { images: Image[] })[] | null> {
   return await prisma.product.findMany({
     skip: (page - 1) * pageSize,
-    take: pageSize
+    take: pageSize,
+    include: {
+      images: true
+    }
   });
 }
 
-async function searchAll(request: string, page: number, pageSize: number): Promise<Product[] | null> {
+async function searchAll(request: string, page: number, pageSize: number): Promise<(Product & { images: Image[] })[] | null> {
   return await prisma.product.findMany({
     skip: (page - 1) * pageSize,
     take: pageSize,
@@ -16,11 +20,14 @@ async function searchAll(request: string, page: number, pageSize: number): Promi
         title: {
             contains: request,
         }
+    },
+    include: {
+      images: true
     }
   });
 }
 
-async function get(id: number): Promise<Product | null> {
+async function get(id: number): Promise<Product & { images: Image[] } & { user: Partial<User>} | null> {
   return await prisma.product.findUnique({
     where: {
         id: id
@@ -86,7 +93,7 @@ async function remove(id: number): Promise<Product | null> {
     });
 }
 
-async function create(title: string, description: string, state: State, location: string, userId: number, images: Buffer[]): Promise<Product | Prisma.PrismaClientKnownRequestError>   {
+async function create(title: string, description: string, state: State, location: string, userId: number, images: ImageBuffer[]): Promise<Product | Prisma.PrismaClientKnownRequestError>   {
   return await prisma.product.create({
     data: {
         title: title,
@@ -96,7 +103,7 @@ async function create(title: string, description: string, state: State, location
         user_id: userId,
 
         images: {
-          create: images.map((imgContent) => ({ content: imgContent })),
+          create: images.map((image) => ({ content: image.buffer, mime: image.mimeType })),
         },
     },
     include: {
@@ -105,7 +112,7 @@ async function create(title: string, description: string, state: State, location
   });
 }
 
-async function update(id: number, title: string, description: string, state: State, location: string, images: Buffer[]): Promise<Product | Prisma.PrismaClientKnownRequestError>   {
+async function update(id: number, title: string, description: string, state: State, location: string, images: ImageBuffer[]): Promise<Product | Prisma.PrismaClientKnownRequestError>   {
     await prisma.image.deleteMany({
         where: {
             product_id: id
@@ -121,17 +128,20 @@ async function update(id: number, title: string, description: string, state: Sta
         location,
 
         images: {
-          create: images.map((imgContent) => ({ content: imgContent })),
+          create: images.map((image) => ({ content: image.buffer, mime: image.mimeType })),
         },
       },
       include: { images: true },
     });
 }
 
-async function getFromUser(userId: number): Promise<Product[] | null> {
+async function getFromUser(userId: number): Promise<(Product & { images: Image[] })[] | null> {
     return await prisma.product.findMany({
         where: {
             user_id: userId
+        },
+        include: {
+          images: true
         }
     });
 }

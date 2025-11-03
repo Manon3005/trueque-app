@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt'
 import { Role, Prisma } from '../generated/prisma';
 import jwt from 'jsonwebtoken'
 import { AuthenticatedRequest } from '../models/authenticated-request';
+import { toBase64 } from '../utils/image';
 
 async function create(req: Request, res: Response) {
   try {
@@ -218,12 +219,6 @@ async function updatePicture(req: AuthenticatedRequest, res: Response) {
     }
     res.status(400).json(result);
   }
-}
-
-function toBase64(data: Buffer | Uint8Array | null | undefined) {
-  if (!data) return null;
-  const buffer = Buffer.isBuffer(data) ? data : Buffer.from(data);
-  return buffer.toString("base64");
 }
 
 async function get(req: AuthenticatedRequest, res: Response) {

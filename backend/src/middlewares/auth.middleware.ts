@@ -4,9 +4,6 @@ import { UserJwtPayload } from '../models/user-jwt-payload';
 import { AuthenticatedRequest } from '../models/authenticated-request';
 
 export function verifyToken(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-   
-    console.log('¡AUTH MIDDLEWARE: Verificando token!');
-   
     try {
         const authHeader = req.header('Authorization');
         if (!authHeader) {
@@ -27,12 +24,8 @@ export function verifyToken(req: AuthenticatedRequest, res: Response, next: Next
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY!) as UserJwtPayload;
         req.userId = decoded.userId;
         req.role = decoded.role;
-        console.log('¡AUTH MIDDLEWARE: Token verificado! Pasando al controlador...');
         next();
     } catch (error) {
-
-        console.error('¡AUTH MIDDLEWARE: Error al verificar el token!', error);
-
         return res.status(401).json({
             code: 401,
             message: "Invalid token.",

@@ -14,7 +14,6 @@ export interface ProductCreationPayload {
   description: string;
   state: State;
   location: string;
-  images: string[];
 }
 @Injectable({
   providedIn: 'root'
@@ -52,12 +51,26 @@ export class ProductService {
 
   //obtener por id
   getById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.baseUrl}/${id}`);
+    return this.http.get<Response>(`${this.baseUrl}/${id}`)
+    .pipe(
+      map(response => response.data)
+    );
   }
 
   //crear producto nuevo JSON con Base64
-  createProduct(payload: ProductCreationPayload): Observable<Product> {
-    return this.http.post<Product>(`${this.baseUrl}/new`, payload);
+  createProduct(payload: ProductCreationPayload, files: File[]): Observable<Product> {
+    const formData = new FormData();
+    files.forEach(file => formData.append('images', file));
+
+    Object.keys(payload).forEach(key => {
+      const value = (payload as any)[key];
+      formData.append(key, value?.toString() ?? '');
+    });
+
+    return this.http.post<Response>(`${this.baseUrl}/new`, formData, {})
+    .pipe(
+      map(response => response.data)
+    );
   }
 
   //actualizar producto
@@ -71,12 +84,12 @@ export class ProductService {
 
   //marcar/des producto como favorito
   toggleFavorite(id: number, is_favorite: boolean): Observable<any> {
-    return this.http.post<void>(`${this.baseUrl}/${id}/favorite`, { is_favorite });
+    return this.http.patch<void>(`${this.baseUrl}/favorite/${id}`, { is_favorite });
   }
 
   //Denunciar producto
   toggleDenounce(id: number, is_denounced: boolean): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/${id}/denounced`, { is_denounced });
+    return this.http.patch(`${this.baseUrl}/denounced/${id}`, { is_denounced });
   }
 
 }

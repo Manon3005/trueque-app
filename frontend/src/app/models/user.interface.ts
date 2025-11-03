@@ -11,4 +11,5 @@ export interface User {
     is_suspended: boolean;
     password?: string;
     picture?: string;
+    pictureMime?: string;
 }

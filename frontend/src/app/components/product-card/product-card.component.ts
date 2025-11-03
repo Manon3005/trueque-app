@@ -13,8 +13,8 @@ export class ProductCardComponent  implements OnInit {
   @Input() title: string = "Title";
   @Input() imageURL: string = "";
   @Input() id: number = 0;
-  @Input() location: string = "";
-  @Input() antiquity: string = "";
+  @Input() location?: string = "";
+  @Input() antiquity?: string = "";
   private navCtrl = inject(NavController);
 
   constructor() { }

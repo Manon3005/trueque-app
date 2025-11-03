@@ -26,13 +26,10 @@ export class SearchPage implements OnInit {
         if (response && response.data && Array.isArray(response.data.products)) {
           
           this.productList = response.data.products.map((product: any) => { 
-
-            const firstImageBuffer = product.images?.[0]?.content;
-
             return {
               id: product.id,
               title: product.title,
-              firstimage: this.buffeToDataURL(firstImageBuffer),
+              firstImage: product.images[0],
               state: product.state,
               location: product.location,
               antiquity: this.timeago(product.created_at)
@@ -90,19 +87,4 @@ export class SearchPage implements OnInit {
     }
     return "hace " + Math.floor(seconds) + " segundos";
   }
-
-  buffeToDataURL(bufferObject: any): string | null {
-    if (!bufferObject || bufferObject.type !== 'Buffer' || !Array.isArray(bufferObject.data)){
-      return null;
-    }
-    const byteArray = new Uint8Array(bufferObject.data);
-    
-    let binaryString = '';
-    byteArray.forEach((byte) => {
-      binaryString += String.fromCharCode(byte);
-    });
-    const base64String = btoa(binaryString);
-    return `data:image/png;base64,${base64String}`;
-  }
-
 }
