@@ -2,21 +2,18 @@
 
 Trueque es una marketplace donde las personas pueden donar y recibir objetos de forma gratuita.
 
-## Entrega Parcial 1: Diseño y estructura inicial
+## Entrega Parcial 2: Integración backend + frontend y autenticación
 
-Esta primera entrega tiene como objetivo definir el diseño de la aplicación y construir la estructura inicial del frontend.
+El objetivo de esta segunda versión es conectar el frontend ya codificado para la primera versión con el backend. Hemos decidido utilizar **Node.js** y **Express** para implementarlo. 
 
-En la carpeta [otros](./otros) situada en la raíz del directorio encontrará:
-- un archivo con los **requerimientos** funcionales y no funcionales que hemos definido
-- un archivo con el **diagrama del flujo de navegación** del usuario
-
-Aquí es el enlace del [Figma](https://www.figma.com/design/QyCNtTY6XdMopfxlKUff8p/Mockups?node-id=0-1&p=f&t=oAyGktkurYPzOA1O-0) con los mockups.
+Aún no hemos tenido tiempo de desarrollar el módulo de administración, que añadiremos a la versión final.
 
 ## Integrantes
 - Nelson Fuentes Ladron de Guevara
 - Manon Alicia Bertrand
 
-## Pasos para Ejecutar el Proyecto
+## Pasos para ejecutar el proyecto
+
 1. Clonar el repositorio.
 ```bash
 git clone https://github.com/Manon3005/trueque-app.git
@@ -26,20 +23,29 @@ git clone https://github.com/Manon3005/trueque-app.git
 ```bash
 cd frontend
 npm install
-cd ../backend
+```
+```bash
+cd backend
 npm install
 ```
 
-3. Ejecutar el backend de la aplicación.
+3. Crear la base de datos y generar el cliente Prisma.
+```bash
+cd backend
+npm run db:setup
+```
+
+4. Ejecutar el backend de la aplicación.
 ```bash
 cd backend
 npm run build
 npm run start
 ```
 
-4. Ejecutar el frontend de la aplicación en modo desarrollo.
+5. Ejecutar el frontend de la aplicación en modo desarrollo.
 ```bash
-cd ../frontend
+cd frontend
 ionic serve
 ```
-4. Abrir la aplicación en el navegador en [localhost](http://localhost:8100).
+
+6. Abrir la aplicación en el navegador en [localhost](http://localhost:8100).
