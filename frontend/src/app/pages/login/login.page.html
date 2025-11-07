@@ -18,17 +18,21 @@
               required
               email>
             </ion-input>
-            <ion-input
-              label="Contraseña"
-              type="password"
-              labelPlacement="stacked"
-              errorText="Mínimo 8 caracteres, con al menos una mayúscula, una minúscula y un número"
-              name="password"
-              ngModel
-              required
-              appPasswordValidator>
-            </ion-input>
-            <ion-button type="submit">Iniciar sesión</ion-button>
+              <ion-input
+                label="Contraseña"
+                [type]="showPassword ? 'text' : 'password'"
+                labelPlacement="stacked"
+                errorText="Mínimo 8 caracteres, con al menos una mayúscula, una minúscula y un número"
+                name="password"
+                ngModel
+                required
+                appPasswordValidator
+              >
+                <ion-button fill="clear" slot="end" (click)="togglePassword()">
+                  <ion-icon slot="icon-only" [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+                </ion-button>
+              </ion-input>
+            <ion-button class="submit-button" type="submit">Iniciar sesión</ion-button>
           </form>
         </div>
       </ion-row>

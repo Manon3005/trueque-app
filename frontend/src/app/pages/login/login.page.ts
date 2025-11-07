@@ -18,6 +18,8 @@ export class LoginPage {
   private toastCtrl = inject(ToastController);
   private navCtrl = inject(NavController);
   private loadingCtrl = inject(LoadingController);
+  showPassword: boolean = false;
+
   constructor() {}
 
   async onSubmit(form: NgForm) {
@@ -33,7 +35,7 @@ export class LoginPage {
       message: 'Iniciando sesión...'
     });
     await loading.present();
-    try{
+    try {
       // obtener datos del formulario
       const email = form.value.email;
       const password = form.value.password;
@@ -54,5 +56,9 @@ export class LoginPage {
       const message = err.error?.message || 'Error al iniciar sesión. Inténtalo de nuevo.';
       presentToast(this.toastCtrl, message, 'danger');
     }
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 }
