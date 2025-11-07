@@ -1,7 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Product } from '../../models/product';
-import { State } from '../../models/state';
 import { ProductService } from '../../services/product.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Role } from 'src/app/models/role.enum';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-search',
@@ -10,18 +11,21 @@ import { ProductService } from '../../services/product.service';
   standalone: false
 })
 export class SearchPage implements OnInit {
+  private productService = inject(ProductService);
+  private authService = inject(AuthService);
+  private navCtrl = inject (NavController); 
+
   productList: any[] = [];
   visibleProductList: any[] = [];
-  private productService = inject(ProductService);
+  isAdmin: boolean = false;
+
   constructor() { }
 
-// src/app/pages/search/search.page.ts
-
   ngOnInit() {
+    this.isAdmin = this.authService.getCurrentUserRole()?.toString() === 'ADMIN';
     this.productService.getAll().subscribe({
       
       next: (response: any) => {
-        console.log('Productos recibidos!', response);
         // Verificamos que la respuesta sea la esperada
         if (response && response.data && Array.isArray(response.data.products)) {
           
@@ -86,5 +90,9 @@ export class SearchPage implements OnInit {
       return "hace " + Math.floor(interval) + (Math.floor(interval) === 1 ? " minuto" : " minutos");
     }
     return "hace " + Math.floor(seconds) + " segundos";
+  }
+
+  goToAdminPage() {
+    this.navCtrl.navigateRoot('/admin');
   }
 }

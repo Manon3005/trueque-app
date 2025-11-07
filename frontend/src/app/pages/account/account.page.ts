@@ -2,7 +2,7 @@ import { Component, computed, ElementRef, inject, OnDestroy, OnInit, ViewChild }
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Product } from 'src/app/models/product';
-import { User } from 'src/app/models/user.interface';
+import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { presentToast } from 'src/app/utils/present-toast';

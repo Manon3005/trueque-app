@@ -77,7 +77,8 @@ async function getAll(page: number, pageSize: number): Promise<GetAllUserDto[] |
       rut: true,
       email: true,
       username: true,
-      is_suspended: true
+      is_suspended: true,
+      role: true
     }
   })
 }
