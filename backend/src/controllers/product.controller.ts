@@ -303,6 +303,55 @@ async function getUserFavorite(req: AuthenticatedRequest, res: Response) {
   }
 }
 
+async function getDenounced(req: Request, res: Response) {
+  try {
+    const page = parseInt(req.query.page as string);
+    const pageSize = parseInt(req.query.pageSize as string);
+
+    const products = await ProductRepository.getDenounced(page, pageSize);
+    const amount = await ProductRepository.countDenounced();
+
+
+    let result: JsonResponse;
+    if (products != null) {
+      const formattedProducts = products.map(product => {
+        return {
+          id: product.id,
+          title: product.title,
+          user_id: product.user_id,
+          nb_denounced: product._count.denounced
+        };
+      });
+
+      result = {
+        code: 200,
+        message: "Denounced products sent successfully.",
+        data: {
+          products: formattedProducts,
+          totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
+        }
+      }
+    } else {
+      result = {
+        code: 200,
+        message: "No product to sent.",
+        data: {
+          products: [],
+          totalPage: pageSize != 0? Math.ceil(amount / pageSize): 0
+        }
+      }
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    const result: JsonResponse = {
+      code: 400,
+      message: "Error in getting products.",
+      data: null
+    }
+    res.status(400).json(result);
+  }
+}
+
 export const ProductController = {
   create,
   update,
@@ -312,5 +361,6 @@ export const ProductController = {
   get,
   remove,
   getAllFromUser,
-  getUserFavorite
+  getUserFavorite,
+  getDenounced
 }

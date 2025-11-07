@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UserCreationData, UserService } from './user.service';
+import { Role } from '../models/role.enum';
 
 interface LoginResponse {
   code: number;
@@ -60,8 +61,21 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return null;
     try {
-      const payload = JSON.parse(atob(token.split(',')[1]));
+      const payload = JSON.parse(atob(token.split('.')[1]));
       return payload.userId ?? null;
+    } catch (e) {
+      console.error('Error decodificando token:', e);
+      return null;
+    }
+  }
+
+  // Obtener el role del usuario actual desde el token almacenado
+  getCurrentUserRole(): Role | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.role ?? null;
     } catch (e) {
       console.error('Error decodificando token:', e);
       return null;

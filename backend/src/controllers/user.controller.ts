@@ -155,8 +155,17 @@ async function getAll(req: Request, res: Response) {
   }
 }
 
-async function updateIsSuspended(req: Request, res: Response) {
+async function updateIsSuspended(req: AuthenticatedRequest, res: Response) {
   try {
+    if (req.role != Role.ADMIN) {
+      const result: JsonResponse = {
+        code: 400,
+        message: "Forbidden.",
+        data: null
+      }
+      res.status(403).json(result);
+    }
+
     const body = req.body as UpdateIsSuspendedDto;
     await UserRepository.updateIsSuspended(parseInt(req.params.id), body.is_suspended);
     const result: JsonResponse = {

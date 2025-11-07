@@ -1,0 +1,81 @@
+<app-header title="Administración"></app-header>
+
+<ion-content>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/search"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-segment [(ngModel)]="segmentValue">
+    <ion-segment-button value="userList">
+      <ion-label>Usuarios</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="productList">
+      <ion-label>Productos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ng-container *ngIf="segmentValue === 'userList'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Usuarios</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <table>
+          <tr><th>ID</th><th>Nombre de usuario</th><th>Acción</th></tr>
+          <tr *ngFor="let user of usersList">
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>
+              <ion-button
+                size="small"
+                (click)="toggleUserStatus(user.id, user.is_suspended)"
+                [color]="!user.is_suspended ? 'warning' : 'primary'"
+                [disabled]="user.role!.toString() === 'ADMIN'">
+                {{ !user.is_suspended ? 'Suspender' : 'Reactivar' }}
+              </ion-button>
+            </td>
+          </tr>
+        </table>
+
+        <div class="pagination">
+          <ion-button (click)="prevUser()" [disabled]="pageUser === 1">Precedente</ion-button>
+          <ion-button (click)="nextUser()" [disabled]="pageUser === totalPageUser || totalPageUser === 0">Siguiente</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <ng-container *ngIf="segmentValue === 'productList'">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Productos denunciados</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <table>
+          <tr><th>ID</th><th>Título</th><th>Donator ID</th><th>Número de denuncia</th><th>Acción</th></tr>
+          <tr *ngFor="let product of productsList">
+            <td><a href="#" (click)="goToProductPage(product.id, $event)">{{ product.id }}</a></td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.user_id }}</td>
+            <td>{{ product.nb_denounced }}</td>
+            <td>
+              <ion-button
+                size="small"
+                (click)="removeProduct(product.id)"
+                color="warning">
+                Eliminar
+              </ion-button>
+            </td>
+          </tr>
+        </table>
+
+        <div class="pagination">
+          <ion-button (click)="prevProduct()" [disabled]="pageProduct === 1">Precedente</ion-button>
+          <ion-button (click)="nextProduct()" [disabled]="pageProduct === totalPageProduct || totalPageProduct === 0">Siguiente</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+</ion-content>

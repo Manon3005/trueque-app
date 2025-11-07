@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { userProductsResolver, userResolver } from './resolvers/user.resolver';
 import { favoriteProductResolver } from './resolvers/product.resolver';
+import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
   {
@@ -58,6 +59,11 @@ export const routes: Routes = [
   {
     path: 'product',
     loadChildren: () => import('./pages/product/product.module').then( m => m.ProductPageModule)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule),
+    canActivate: [adminGuard]
   },
   { path: '**', redirectTo: '404' },
 ];

@@ -27,6 +27,24 @@ async function searchAll(request: string, page: number, pageSize: number): Promi
   });
 }
 
+async function getDenounced(page: number, pageSize: number): Promise<(Product & { _count: {denounced: number} })[] | null> {
+  return await prisma.product.findMany({
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+    where: {
+      denounced: {
+        some: {}
+      }
+    },
+    include: {
+      user: true,
+      _count: {
+        select: { denounced: true }
+      }
+    },
+  });
+}
+
 async function get(id: number): Promise<Product & { images: Image[] } & { user: Partial<User>} | null> {
   return await prisma.product.findUnique({
     where: {
@@ -160,6 +178,16 @@ async function countRequest(request: string): Promise<number> {
   });
 }
 
+async function countDenounced(): Promise<number> {
+  return await prisma.product.count({
+    where: {
+      denounced: {
+        some: {}
+      }
+    },
+  });
+}
+
 async function getFavorite(userId: number) {
   return await prisma.product.findMany({
     where: {
@@ -199,5 +227,7 @@ export const ProductRepository = {
     count,
     countRequest,
     getFavorite,
-    isFavorite
+    isFavorite,
+    getDenounced,
+    countDenounced
 }

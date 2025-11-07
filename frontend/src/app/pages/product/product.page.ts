@@ -1,7 +1,8 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { NavController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 import { Product } from 'src/app/models/product';
 import { State } from 'src/app/models/state';
 import { ProductService } from 'src/app/services/product.service';
@@ -22,6 +23,7 @@ export class ProductPage implements OnInit {
   private data = toSignal(this.route.data);
   private toastCtrl = inject(ToastController);
   private navCtrl = inject (NavController);
+  private alertCtrl = inject(AlertController);
   private productService = inject(ProductService);
 
   product = computed(() => this.data()?.['product'] as Partial<Product> ?? {});
@@ -46,14 +48,14 @@ export class ProductPage implements OnInit {
     console.log('slide changed');
   }
 
-  setFavorite() {
+  async setFavorite() {
     try {
       if (this.icon == "heart-outline") {
-        this.productService.toggleFavorite(this.product().id!, true).subscribe();
+        await firstValueFrom(this.productService.toggleFavorite(this.product().id!, true));
         presentToast(this.toastCtrl, "Producto marcado como favorito", "success");
         this.icon = "heart"
       } else {
-        this.productService.toggleFavorite(this.product().id!, false).subscribe();
+        await firstValueFrom(this.productService.toggleFavorite(this.product().id!, false));
         presentToast(this.toastCtrl, "Producto eliminado de tus favoritos", "success");
         this.icon = "heart-outline";
       }
@@ -66,4 +68,34 @@ export class ProductPage implements OnInit {
     this.navCtrl.navigateRoot(`/messages/${this.product().user_id}`)
   }
 
+  async confirmDenounce(event: Event) {
+    event.preventDefault();
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmación',
+      message: '¿Estás seguro de que deseas denunciar este producto?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Sí, denunciar',
+          role: 'confirm',
+          handler: () => {
+            this.denounceProduct();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  async denounceProduct() {
+    try {
+      await firstValueFrom(this.productService.toggleDenounce(this.product().id!, true));
+      presentToast(this.toastCtrl, "Producto denunciado", "success");
+    } catch (error: any) {
+      presentToast(this.toastCtrl, "Error al denunciar el producto", "danger");
+    }
+  }
 }

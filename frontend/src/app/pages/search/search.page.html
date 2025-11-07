@@ -1,4 +1,14 @@
-<app-header></app-header>
+<div *ngIf="!isAdmin;else other_content">
+    <app-header></app-header>
+</div>
+
+<ng-template #other_content>
+  <app-header
+  buttonIcon="cog-outline"
+  (click)="goToAdminPage()">
+  </app-header>
+</ng-template>
+
 <ion-content>
   <ion-split-pane>
     <ion-menu side="start">

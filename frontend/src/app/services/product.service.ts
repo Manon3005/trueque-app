@@ -33,6 +33,17 @@ export class ProductService {
     return this.http.get(`${this.baseUrl}/`, { params });
   }
 
+   //obtener todos los productos
+  getDenounced(page = 1, pageSize = 20): Observable<any> {
+    const params = new HttpParams()
+      .set('page', String(page))
+      .set('pageSize', String(pageSize));
+    return this.http.get<Response>(`${this.baseUrl}/denounced`, { params })
+    .pipe(
+      map(response => response.data)
+    );
+  }
+
   //obtener producto por usuario actual
   getFromUser(): Observable<Product[]> {
     return this.http.get<Response>(`${this.baseUrl}/user`)

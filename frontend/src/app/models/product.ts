@@ -11,4 +11,5 @@ export interface Product {
     user?: string;
     isFavorite?: boolean;
     user_id?: number;
+    nb_denounced?: number;
 }

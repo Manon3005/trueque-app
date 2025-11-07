@@ -1,11 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import { Role } from '../models/role.enum';
-import { User } from '../models/user.interface';
+import { User } from '../models/user';
 import { Response } from '../models/response';
+import { PaginatedUser } from '../models/paginated-result';
 
 export interface UserCreationData {
   rut: string;
@@ -41,21 +42,26 @@ export class UserService {
   updatePicture(file: File): Observable<Response> {
     const formData = new FormData();
     formData.append('picture', file);
-
     return this.http.patch<Response>(`${this.baseUrl}/picture`, formData, {});
   }
 
   //suspend user
   updateIsSuspended(id: number, is_suspended: boolean): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}/${id}/suspended`, { is_suspended });
+    return this.http.patch<User>(`${this.baseUrl}/${id}/suspended`, { is_suspended });
   }
 
   //get All user
-  getAll(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}/`);
+  getAll(page: number, pageSize: number): Observable<PaginatedUser> {
+    const params = new HttpParams()
+      .set('page', String(page))
+      .set('pageSize', String(pageSize));
+    return this.http.get<Response>(`${this.baseUrl}/`, { params })
+      .pipe(
+      map(response => response.data)
+    );
   }
 
-  //get All user
+  //get user
   get(): Observable<Partial<User>> {
     return this.http.get<Response>(`${this.baseUrl}/me`)
     .pipe(
