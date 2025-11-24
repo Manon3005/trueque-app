@@ -4,8 +4,7 @@ import { NavController, ToastController, LoadingController } from '@ionic/angula
 import { firstValueFrom } from 'rxjs';
 
 import { ProductService, ProductCreationPayload } from 'src/app/services/product.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { State, StateLabel } from '../../models/state';
+import { State } from '../../models/state';
 import { presentToast } from 'src/app/utils/present-toast';
 
 @Component({
@@ -24,7 +23,6 @@ export class NewPage {
 
   private formBuilder = inject(FormBuilder);
   private productService = inject(ProductService);
-  private authService = inject(AuthService);
   private navCtrl = inject(NavController);
   private toastCtrl = inject(ToastController);
   private loadingCtrl = inject(LoadingController);
@@ -89,7 +87,7 @@ export class NewPage {
     try {
       const stateAsNumber = this.form.value.state;
       const stateAsString = State[stateAsNumber];
-      //crear payload
+      //crear payload>
       const payload: ProductCreationPayload = {
         title: this.form.value.title,
         description: this.form.value.description,
@@ -101,7 +99,7 @@ export class NewPage {
       //exito
       await loading.dismiss();
       await presentToast(this.toastCtrl, 'Producto publicado con éxito.', 'success');
-      //navegar a account para ver productos
+      //navegar a la pagina del producto
       this.navCtrl.navigateRoot(`/product/${newProduct.id}`);
     }
     catch (error) {

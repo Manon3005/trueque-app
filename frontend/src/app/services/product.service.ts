@@ -15,6 +15,7 @@ export interface ProductCreationPayload {
   state: State;
   location: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -85,8 +86,19 @@ export class ProductService {
   }
 
   //actualizar producto
-  update(id: number, payload: Partial<ProductCreationPayload>): Observable<Product> {
-    return this.http.put<Product>(`${this.baseUrl}/${id}`, payload);
+  update(id: number, payload: Partial<ProductCreationPayload>, files: File[]): Observable<Product> {
+    const formData = new FormData();
+    files.forEach(file => formData.append('images', file));
+
+    Object.keys(payload).forEach(key => {
+      const value = (payload as any)[key];
+      formData.append(key, value?.toString() ?? '');
+    });
+
+    return this.http.put<Response>(`${this.baseUrl}/${id}`, formData, {})
+    .pipe(
+      map(response => response.data)
+    );
   }
   //eliminar producto
   delete(id: number): Observable<any> {

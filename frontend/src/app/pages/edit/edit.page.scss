@@ -1,3 +1,12 @@
+ion-button {
+  width:40%;
+  text-transform: none;
+  color: white;
+  display: block;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
 .img-row {
   display: flex;
   gap: 12px;
@@ -63,11 +72,8 @@
   margin-top: 14px;
 }
 
-ion-button {
-  width:40%;
-  text-transform: none;
-  color: white;
-  display: block;
-  margin: 0 auto;
-  padding-top: 10px;
+.actions { 
+  margin-top: 16px; 
+  display: flex;
+  justify-content: center;
 }

@@ -1,5 +1,5 @@
 <app-header class="ion-no-border"
-  title="Nuevo Producto">
+  title="Modificación">
 </app-header>
 
 <ion-content>
@@ -55,18 +55,18 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     
     <ion-item fill="outline" class="form-item">
-      <ion-label position="stacked">Título*</ion-label>
+      <ion-label position="stacked">Título</ion-label>
       <ion-input formControlName="title"></ion-input>
     </ion-item>
 
     <ion-item fill="outline" class="form-item">
-      <ion-label position="stacked">Ubicación*</ion-label>
+      <ion-label position="stacked">Ubicación</ion-label>
       <ion-input formControlName="location"></ion-input>
       <ion-icon name="location-outline" slot="end"></ion-icon>
     </ion-item>
 
     <ion-item fill="outline" class="form-item">
-      <ion-label position="stacked">Estado*</ion-label>
+      <ion-label position="stacked">Estado</ion-label>
       <ion-select formControlName="state">
         <ion-select-option [value]="0">Nuevo</ion-select-option>
         <ion-select-option [value]="1">Como Nuevo</ion-select-option>
@@ -78,13 +78,14 @@
     </ion-item>
 
     <ion-item fill="outline" class="form-item">
-      <ion-label position="stacked">Descripción*</ion-label>
+      <ion-label position="stacked">Descripción</ion-label>
       <ion-textarea formControlName="description" rows="5"></ion-textarea>
       <ion-icon name="document-text-outline" slot="end" class="align-icon-top"></ion-icon>
     </ion-item>
 
     <div class="actions">
-      <ion-button type="submit" [disabled]="form.invalid">Publicar</ion-button>
+      <ion-button type="submit" [disabled]="form.invalid">Guardar</ion-button>
     </div>
   </form>
+  <ion-button color="danger" (click)="confirmDelete()">Eliminar</ion-button>
 </ion-content>
