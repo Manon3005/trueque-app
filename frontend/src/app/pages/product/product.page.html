@@ -20,7 +20,7 @@
   </swiper-container>
   <div class="product-info">
     <ion-item class="title-item" lines="none">
-      <ion-button fill="clear" shape="round" slot="end" (click)="setFavorite()">
+      <ion-button *ngIf="userId != product().user_id" fill="clear" shape="round" slot="end" (click)="setFavorite()">
         <ion-icon slot="icon-only" [name]="icon"></ion-icon>
       </ion-button>
       <ion-label class="product-title">{{product().title}}</ion-label>
@@ -39,25 +39,35 @@
     <ion-item lines="none">
       <ion-icon name="star-outline" slot="start"></ion-icon>
       <ion-label>
-        <strong>{{product().state}}</strong>
+        <strong>{{state}}</strong>
       </ion-label>
     </ion-item>
 
-    <ion-card class="donor-card">
-      <ion-item lines="none">
-        <ion-avatar slot="start">
-          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Donador" />
-        </ion-avatar>
-        <ion-label>
-          <strong>{{product().user}}</strong>
-        </ion-label>
-        <ion-button slot="end" fill="solid" (click)="openDiscussionConUser()">
-          Contactar
-        </ion-button>
-      </ion-item>
-    </ion-card>
-  </div>
-  <div class="denounce-text">
-    <p>Anuncio fraudulento? <a href="#" (click)="confirmDenounce($event)">Denuncia aquí</a>.</p>
+    <ng-container *ngIf="userId != product().user_id; else otherSection"> 
+      <ion-card class="donor-card">
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Donador" />
+          </ion-avatar>
+          <ion-label>
+            <strong>{{ product().user }}</strong>
+          </ion-label>
+          <ion-button slot="end" fill="solid" (click)="openDiscussionConUser()">
+            Contactar
+          </ion-button>
+        </ion-item>
+      </ion-card>
+
+      <div class="denounce-text">
+        <p>
+          Anuncio fraudulento?
+          <a href="#" (click)="confirmDenounce($event)">Denuncia aquí</a>.
+        </p>
+      </div>
+    </ng-container>
+
+    <ng-template #otherSection>
+      <ion-button type="submit" (click)="navigateToModificationPage()">Modify</ion-button>
+    </ng-template>
   </div>
 </ion-content>

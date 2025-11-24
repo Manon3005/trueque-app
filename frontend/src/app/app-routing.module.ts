@@ -65,6 +65,10 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule),
     canActivate: [adminGuard]
   },
+  {
+    path: 'edit',
+    loadChildren: () => import('./pages/edit/edit.module').then( m => m.EditPageModule)
+  },
   { path: '**', redirectTo: '404' },
 ];
 

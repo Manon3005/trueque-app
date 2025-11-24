@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { Product } from 'src/app/models/product';
-import { State } from 'src/app/models/state';
+import { AuthService } from 'src/app/services/auth.service';
 import { ProductService } from 'src/app/services/product.service';
 import { presentToast } from 'src/app/utils/present-toast';
 import { register } from 'swiper/element/bundle';
 import { Swiper } from 'swiper/types';
+import { State, StateLabel } from 'src/app/models/state';
 
 register();
 
@@ -25,11 +26,16 @@ export class ProductPage implements OnInit {
   private navCtrl = inject (NavController);
   private alertCtrl = inject(AlertController);
   private productService = inject(ProductService);
+  private authService = inject(AuthService);
 
   product = computed(() => this.data()?.['product'] as Partial<Product> ?? {});
   icon: string = "";
+  userId: number;
+  state: string = "";
 
-  constructor() { }
+  constructor() { 
+    this.userId = this.authService.getCurrentUserId()!;
+  }
 
   ngOnInit() {
     if (this.product().isFavorite == true) {
@@ -37,6 +43,9 @@ export class ProductPage implements OnInit {
     } else {
       this.icon = "heart-outline";
     }
+
+    const enumValue = State[this.product().state as keyof typeof State];
+    this.state = StateLabel.get(enumValue)!;
   }
 
   onProgress(event: CustomEvent<[Swiper, number]>) {
@@ -66,6 +75,10 @@ export class ProductPage implements OnInit {
 
   openDiscussionConUser() {
     this.navCtrl.navigateRoot(`/messages/${this.product().user_id}`)
+  }
+
+  navigateToModificationPage() {
+    this.navCtrl.navigateRoot(`/edit/${this.product().id}`)
   }
 
   async confirmDenounce(event: Event) {

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Role } from 'src/app/models/role.enum';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-search',
@@ -13,7 +13,8 @@ import { NavController } from '@ionic/angular';
 export class SearchPage implements OnInit {
   private productService = inject(ProductService);
   private authService = inject(AuthService);
-  private navCtrl = inject (NavController); 
+  private navCtrl = inject (NavController);
+  private loadingCtrl = inject(LoadingController);
 
   productList: any[] = [];
   visibleProductList: any[] = [];
@@ -21,14 +22,19 @@ export class SearchPage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.isAdmin = this.authService.getCurrentUserRole()?.toString() === 'ADMIN';
+
+    const loader = await this.loadingCtrl.create({
+      message: 'Cargando productos...',
+    });
+    await loader.present();
+
     this.productService.getAll().subscribe({
-      
-      next: (response: any) => {
+      next: async (response: any) => {
         // Verificamos que la respuesta sea la esperada
         if (response && response.data && Array.isArray(response.data.products)) {
-          
+          await loader.dismiss();
           this.productList = response.data.products.map((product: any) => { 
             return {
               id: product.id,
