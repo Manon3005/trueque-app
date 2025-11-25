@@ -2,12 +2,6 @@
 
 Trueque es una marketplace donde las personas pueden donar y recibir objetos de forma gratuita.
 
-## Entrega Parcial 2: Integración backend + frontend y autenticación
-
-El objetivo de esta segunda versión es conectar el frontend ya codificado para la primera versión con el backend. Hemos decidido utilizar **Node.js** y **Express** para implementarlo. 
-
-Aún no hemos tenido tiempo de desarrollar el módulo de administración, que añadiremos a la versión final.
-
 ## Integrantes
 - Nelson Fuentes Ladron de Guevara
 - Manon Alicia Bertrand
@@ -38,7 +32,6 @@ npm run db:setup
 4. Ejecutar el backend de la aplicación.
 ```bash
 cd backend
-npm run build
 npm run start
 ```
 
