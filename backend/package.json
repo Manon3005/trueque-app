@@ -1,14 +1,15 @@
 {
   "name": "trueque-app-backend",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "server.ts",
+  "type": "module",
   "scripts": {
     "postinstall": "npx prisma generate",
     "db:setup": "npx prisma migrate dev --name init",
     "db:reset": "npx prisma migrate reset",
-    "build": "tsc && npm run copy-files",
+    "build": "npm run copy-files",
     "copy-files": "copyfiles -u 1 src/generated/prisma/** dist/",
-    "start": "node dist/server.js"
+    "start": "tsx src/server.ts"
   },
   "author": "manon",
   "license": "ISC",
@@ -31,6 +32,7 @@
     "copyfiles": "^2.4.1",
     "prisma": "^6.17.1",
     "rimraf": "^6.0.1",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
 }
